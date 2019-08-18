@@ -13,6 +13,7 @@
         <card :text="(index + 1) + ' . ' + log"></card>
       </li>
     </ul>
+    <van-button type="primary">test</van-button>
   </div>
 </template>
 
