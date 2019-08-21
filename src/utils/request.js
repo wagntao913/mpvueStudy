@@ -1,0 +1,39 @@
+function createFly() {
+  if (mpvuePlatform === 'wx') { // 判断是否是微信平台
+    const Fly = require('flyio/dist/npm/wx')
+    return new Fly()
+  }
+  return null
+}
+function handleError(params) {
+  console.log(params)
+}
+
+export function get(url, params = {}) {
+  const fly = createFly()
+  if (fly) {
+    return new Promise((resolve, reject) => {
+      fly.get(url, params).then(response => {
+        console.log(response)
+        resolve(response)
+      }).catch(error => {
+        handleError(error)
+        reject(error)
+      })
+    })
+  }
+}
+export function post(url, params = {}) {
+  const fly = createFly()
+  if (fly) {
+    return new Promise((resolve, reject) => {
+      fly.post(url, params).then(response => {
+        console.log(response)
+        resolve(response)
+      }).catch(error => {
+        handleError(error)
+        reject(error)
+      })
+    })
+  }
+}
