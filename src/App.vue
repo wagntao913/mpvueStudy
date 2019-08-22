@@ -32,6 +32,8 @@ export default {
 
 <style>
   page{
+    /* height: 100%; */
+    background-color: #f3f3f3;
     font-family:Microsoft YaHei;
   }
 /* .container {
