@@ -101,11 +101,9 @@
 
 <script>
 import { get } from '@/utils/request'
-import itemCard from '../../components/base/itemCard'
 import imageView from '../../components/base/imageView'
 export default {
   components: {
-    itemCard,
     imageView
   },
   methods: {
