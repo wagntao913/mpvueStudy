@@ -56,19 +56,19 @@
       <div class="card-content">
         <div class="order-manage">
           <div class="order-item">
-            <van-icon class="order-item-icon" name="todo-list-o"></van-icon>
+            <i class="iconfont icon-wode-tidandaitihuo order-item-icon"></i>
             <p class="order-item-title">待提货订单</p>
           </div>
           <div class="order-item">
-            <van-icon class="order-item-icon" name="balance-list-o"></van-icon>
+            <i class="iconfont icon-yidongduanshangchuan- order-item-icon"></i>
             <p class="order-item-title">已提货订单</p>
           </div>
           <div class="order-item">
-            <van-icon class="order-item-icon" name="refund-o"></van-icon>
+            <i class="iconfont .icon-tuikuan order-item-icon"></i>
             <p class="order-item-title">待售后订单</p>
           </div>
           <div class="order-item">
-            <van-icon class="order-item-icon" name="bookmark-o"></van-icon>
+            <i class="iconfont .icon-shangpin order-item-icon" style="font-size: 20px;"></i>
             <p class="order-item-title">已售出订单</p>
           </div>
         </div>
