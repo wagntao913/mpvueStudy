@@ -9,6 +9,7 @@
           <image-view
             src="/static/images/avatar.jpg"
             round
+            width="50px;"
           ></image-view>
         </div>
         <div class="user-info">
@@ -24,13 +25,13 @@
             </div>
           </div>
         </div>
-        <van-icon name="setting-o" class="setting"></van-icon>
+        <van-icon name="setting-o" class="setting" @click="businessSetting"></van-icon>
       </div>
     </div>
     <div class="card-wrapper">
       <div class="card-title">
         <div>交易数据</div>
-        <van-button round size="mini">提现</van-button>
+        <van-button round size="mini" @click="takeOut">提现</van-button>
       </div>
       <div class="card-divider"></div>
       <div class="card-content">
@@ -112,6 +113,14 @@ export default {
       get('https://www.baidu.com').then(res => {
         console.log('res')
       })
+    },
+    // 跳转提现页面
+    takeOut () {
+      this.$router.push('/pages/withdraw/main')
+    },
+    // 跳转商户设置
+    businessSetting () {
+      this.$router.push('/pages/settings/main')
     }
   }
 }

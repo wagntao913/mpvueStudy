@@ -2,7 +2,7 @@
   <div class="image-view" @click="onClick" :style="{ height }">
     <img
       :class="round ? 'round image' : ' image'"
-      :style="{ height: height }"
+      :style="{ width, height }"
       :src="src"
       :mode="mode"
       :lazy-load="lazyLoad"
@@ -12,7 +12,7 @@
     />
     <img
       :class="round ? 'round image' : ' image'"
-      :style="{ height }"
+      :style="{ width, height }"
       src="/static/images/user.png"
       :mode="mode"
       :lazy-load="lazyLoad"
@@ -40,6 +40,10 @@ export default {
       default: false
     },
     height: {
+      type: String,
+      default: 'auto'
+    },
+    width: {
       type: String,
       default: 'auto'
     }
