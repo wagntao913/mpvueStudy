@@ -56,19 +56,19 @@
       <div class="card-divider"></div>
       <div class="card-content">
         <div class="order-manage">
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('promotion')">
             <i class="iconfont icon-wode-tidandaitihuo order-item-icon"></i>
             <p class="order-item-title">待提货订单</p>
           </div>
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('promotion')">
             <i class="iconfont icon-yidongduanshangchuan- order-item-icon"></i>
             <p class="order-item-title">已提货订单</p>
           </div>
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('promotion')">
             <i class="iconfont .icon-tuikuan order-item-icon"></i>
             <p class="order-item-title">待售后订单</p>
           </div>
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('promotion')">
             <i class="iconfont .icon-shangpin order-item-icon" style="font-size: 20px;"></i>
             <p class="order-item-title">已售出订单</p>
           </div>
@@ -82,15 +82,15 @@
       <div class="card-divider"></div>
       <div class="card-content">
         <div class="shop-manage">
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('promotion')">
             <van-icon class="order-item-icon" name="discount" color="#D00000"></van-icon>
             <p class="order-item-title">促销管理</p>
           </div>
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('activity')">
             <van-icon class="order-item-icon" name="gift-o" color="#D00000"></van-icon>
             <p class="order-item-title">活动管理</p>
           </div>
-          <div class="order-item">
+          <div class="order-item" @click="jumpPages('withdraw')">
             <van-icon class="order-item-icon" name="cash-back-record" color="#D00000"></van-icon>
             <p class="order-item-title">提现记录</p>
           </div>
@@ -101,19 +101,13 @@
 </template>
 
 <script>
-import { get } from '@/utils/request'
+// import { get } from '@/utils/request'
 import imageView from '../../components/base/imageView'
 export default {
   components: {
     imageView
   },
   methods: {
-    jump () {
-      // this.$router.push('/pages/index/main')
-      get('https://www.baidu.com').then(res => {
-        console.log('res')
-      })
-    },
     // 跳转提现页面
     takeOut () {
       this.$router.push('/pages/withdraw/main')
@@ -121,6 +115,9 @@ export default {
     // 跳转商户设置
     businessSetting () {
       this.$router.push('/pages/settings/main')
+    },
+    jumpPages (type) {
+      this.$router.push('/pages/' + type + '/main')
     }
   }
 }
@@ -163,7 +160,7 @@ export default {
       .setting{
         position: absolute;
         right: 12px;
-        font-size: 16px;
+        font-size: 18px;
         color: #fff;
       }
     }

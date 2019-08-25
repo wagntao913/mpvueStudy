@@ -3,7 +3,9 @@
     "pages/index/main",
     "pages/login/main",
     "pages/withdraw/main",
-    "pages/settings/main"
+    "pages/changePassword/main",
+    "pages/settings/main",
+    "pages/promotion/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
