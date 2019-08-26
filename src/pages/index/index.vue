@@ -97,15 +97,23 @@
         </div>
       </div>
     </div>
+    <div>
+      <card
+        orderNo="123546456446"
+        status="待提货"
+      ></card>
+    </div>
   </div>
 </template>
 
 <script>
 // import { get } from '@/utils/request'
 import imageView from '../../components/base/imageView'
+import card from '../../components/itemCard'
 export default {
   components: {
-    imageView
+    imageView,
+    card
   },
   methods: {
     // 跳转提现页面
@@ -181,7 +189,7 @@ export default {
       }
     }
     .card-content{
-      padding: 10px 27px 15px 15px;
+      padding: 5px 27px 5px 10px;
       .business-data{
         display: flex;
         justify-content: space-around;
@@ -201,8 +209,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          // align-content: baseline;
-          height: 75px;
+          height: 65px;
           width: 100px;
           .order-item-icon{
             font-size: 24px;
