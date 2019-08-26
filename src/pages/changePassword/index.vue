@@ -14,11 +14,9 @@
 
 <script>
 import imageView from '../../components/base/imageView'
-import cell from '../../components/base/cell'
 export default {
   components: {
-    imageView,
-    cell
+    imageView
   }
 }
 </script>

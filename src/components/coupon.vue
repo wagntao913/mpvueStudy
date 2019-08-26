@@ -38,20 +38,23 @@ export default {
       display: flex;
       height: 100%;
       width: 100px;
-      // margin-left: 10px;
-      background: #FFE9E9;
       flex-direction: column;
       justify-items: center;
-      justify-content: center;
       color:#E90216;
+
       .coupon-amount{
+        height: 50%;
         font-size: 25px;
+        background:radial-gradient(circle at right top, transparent 8px, #FFE9E9 8px);
       }
       .coupon-condition{
+        height:50%;
         font-size:12px;
+        background:radial-gradient(circle at right bottom, transparent 8px, #FFE9E9 8px);
       }
     }
     .coupon-right{
+      position: relative;
       background: #Ffffff;
       display: flex;
       justify-content: space-around;
@@ -59,10 +62,35 @@ export default {
       width: 255px;
       color:#555555;
       font-size: 10px;
+      // background:radial-gradient(circle at left top, transparent 10px, #fff 10px);
       /deep/ .van-button--default{
         border-color: #FA7921;
         color: #FA7921;
         // width: 130px;
+      }
+      &::before{
+        content: '';
+        position: absolute;
+        background: #f3f3f3;
+        height: 10px;
+        width:10px;
+        top: 0;
+        left:0px;
+        right:0;
+        // z-index: 1000;
+        background:radial-gradient(circle at left top, #f3f3f3 8px,#fff 8px);
+      }
+      &::after{
+        content: '';
+        background: #f3f3f3;
+        height: 10px;
+        width:10px;
+        position: absolute;
+        bottom: 0;
+        left:0;
+        right: 0;
+        background:radial-gradient(circle at left bottom, #f3f3f3 8px,#fff 8px);
+        // z-index: 1000;
       }
     }
   }
