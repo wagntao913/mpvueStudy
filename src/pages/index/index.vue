@@ -69,7 +69,7 @@
             <p class="order-item-title">待售后订单</p>
           </div>
           <div class="order-item" @click="jumpPages('promotion')">
-            <i class="iconfont .icon-shangpin order-item-icon" style="font-size: 20px;"></i>
+            <i class="iconfont icon-shangpin order-item-icon" style="font-size: 20px;"></i>
             <p class="order-item-title">已售出订单</p>
           </div>
         </div>
@@ -97,11 +97,20 @@
         </div>
       </div>
     </div>
+    <!-- 测试 card组件 -->
     <div>
       <card
         orderNo="123546456446"
         status="待提货"
       ></card>
+    </div>
+    <!-- 测试 cell组件 -->
+    <div style="margin:20px 10px 10px 10px;">
+      <filed
+        label="姓名"
+        placeholder="请输入姓名"
+
+      ></filed>
     </div>
   </div>
 </template>
@@ -110,10 +119,13 @@
 // import { get } from '@/utils/request'
 import imageView from '../../components/base/imageView'
 import card from '../../components/itemCard'
+import filed from '../../components/filed'
+
 export default {
   components: {
     imageView,
-    card
+    card,
+    filed
   },
   methods: {
     // 跳转提现页面
