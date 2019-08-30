@@ -5,10 +5,14 @@
       <i :class="left_icon_classes"></i>
     </div>
     <!-- label标签 -->
-    <div class="filed-label" :style="{width: labelWidth}" v-if="label">{{ label }}</div>
+    <div class="filed-label" :style="{width: labelWidth}" v-if="label">
+      <i style="display: inline-block">{{ label }}</i>
+      <!-- 必录标识 -->
+      <i style="display: inline-block;color: #FA7921;" v-if="required">*</i>
+    </div>
     <!-- 录入域 -->
-    <input v-if="inputType !== 'textarea'" :style="{width: inputWidth}" :type="inputType" :placeholder="placeholder">
-    <textarea v-if="inputType === 'textarea'" :placeholder="placeholder" :autoHeight="autoHeight" :maxlength="maxlength"></textarea>
+    <input :style="{width: inputWidth, textAlign: inputAlign}" class="filed-input" :type="inputType" :placeholder="placeholder" @blur="onblur">
+    <!-- <textarea v-if="inputType === 'textarea'" :placeholder="placeholder" :autoHeight="autoHeight" :maxlength="maxlength"></textarea> -->
     <!-- 右侧自定义 -->
     <div slot="extra"></div>
     <!-- 右侧图标 -->
@@ -40,6 +44,10 @@ export default {
       type: String,
       default: '80%'
     },
+    inputAlign: {
+      type: String,
+      default: 'left'
+    },
     autoHeight: {// textarea时，是否为自动高度
       type: Boolean,
       default: false
@@ -55,6 +63,10 @@ export default {
     rightIcon: {// 右侧图标
       type: String,
       default: ''
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   created () {
@@ -64,8 +76,15 @@ export default {
     right_icon_classes() {
       return 'iconfont icon-' + this.rightIcon
     },
-    left() {
+    left_icon_classes() {
       return 'iconfont icon-' + this.leftIcon
+    }
+  },
+  methods: {
+    // input失去焦点
+    onblur() {
+      console.log('==onblur==')
+      // if(this.required)
     }
   }
 }
@@ -82,6 +101,9 @@ export default {
   align-items: center;
   .filed-label{
     text-align: center;
+  }
+  .filed-input{
+    padding-right: 5px;
   }
 }
 </style>

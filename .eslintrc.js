@@ -19,6 +19,9 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
+    // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）
+    "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
+    "space-before-function-paren": [0, "never"],
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await
