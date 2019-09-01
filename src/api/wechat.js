@@ -1,3 +1,4 @@
+// 获取授权信息
 export function getSetting (auth, onSuccess, onFail) {
   mpvue.getSetting({
     success (res) {
@@ -14,6 +15,7 @@ export function getSetting (auth, onSuccess, onFail) {
   })
 }
 
+// 获取用户信息
 export function getUserInfo(onSuccess, onFail) {
   mpvue.getUserInfo({
     success(res) {
@@ -29,4 +31,15 @@ export function getUserInfo(onSuccess, onFail) {
       console.log(res)
     }
   })
+}
+// 轻提示
+export function showToast(title) {
+  mpvue.showToast({
+    title,
+    duration: 2000
+  })
+}
+// 更改导航栏标题
+export function setNavigationBarTitle(title) {
+  mpvue.setNavigationBarTitle({ title })
 }

@@ -6,7 +6,8 @@
     "pages/changePassword/main",
     "pages/settings/main",
     "pages/promotion/main",
-    "pages/createCoupon/main"
+    "pages/createCoupon/main",
+    "pages/orderManage/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -22,6 +23,8 @@
     "van-cell-group": "/vant-weapp/dist/cell-group/index",
     "van-popup": "/vant-weapp/dist/popup/index",
     "van-picker": "/vant-weapp/dist/picker/index",
-    "van-datetime-picker": "/vant-weapp/dist/datetime-picker/index"
+    "van-datetime-picker": "/vant-weapp/dist/datetime-picker/index",
+    "van-tab": "/vant-weapp/dist/tab/index",
+    "van-tabs": "/vant-weapp/dist/tabs/index"
   }
 }

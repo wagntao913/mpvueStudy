@@ -57,7 +57,7 @@
         <div class="card-divider"></div>
         <div class="card-content">
           <div class="order-manage">
-            <div class="order-item" @click="jumpPages('promotion')">
+            <div class="order-item" @click="jumpPages('orderManage')">
               <i class="iconfont icon-wode-tidandaitihuo order-item-icon"></i>
               <p class="order-item-title">待提货订单</p>
             </div>
@@ -99,20 +99,20 @@
         </div>
       </div>
       <!-- 测试 card组件 -->
-      <div>
+      <!-- <div>
         <card
           orderNo="123546456446"
           status="待提货"
         ></card>
-      </div>
+      </div> -->
       <!-- 测试 cell组件 -->
-      <div style="margin:20px 10px 10px 10px;">
+      <!-- <div style="margin:20px 10px 10px 10px;">
         <filed
           label="姓名"
           placeholder="请输入姓名"
           required
         ></filed>
-      </div>
+      </div> -->
     </div>
     <div>
       <auth v-if="!isAuth" @getUserInfo="init"></auth>
