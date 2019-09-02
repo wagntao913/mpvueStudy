@@ -38,11 +38,11 @@ export default {
     },
     labelWidth: {// 标签宽度
       type: String,
-      default: '20%'
+      default: '0'
     },
     inputWidth: {// 录入框宽度
       type: String,
-      default: '80%'
+      default: '100%'
     },
     inputAlign: {
       type: String,
@@ -70,7 +70,7 @@ export default {
     }
   },
   created () {
-    console.log(this.label)
+    // console.log(this.label)
   },
   computed: {
     right_icon_classes() {
@@ -78,6 +78,16 @@ export default {
     },
     left_icon_classes() {
       return 'iconfont icon-' + this.leftIcon
+    }
+  },
+  watch: {
+    label(newValue, oldValue) {
+      if (newValue && !this.labelWidth) {
+        this.labelWidth = '20%'
+        this.inputWidth = '80%'
+      } else if (newValue && this.labelWidth) {
+        this.inputWidth = 1 - parseFloat(this.labelWidth)
+      }
     }
   },
   methods: {
@@ -95,7 +105,7 @@ export default {
   padding: 5px;
   background: #fff;
   width: 100%;
-  min-height: 50px;
+  min-height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;

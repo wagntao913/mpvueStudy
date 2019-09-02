@@ -1,15 +1,21 @@
 <template>
   <div class="after-sale-main">
-    已售后
+    <select-bar></select-bar>
   </div>
 </template>
 
 <script>
-  export default {
-
+import SelectBar from './selectBar'
+export default {
+  components: {
+    SelectBar
   }
+}
 </script>
 
 <style lang="scss" scoped>
-.after-sale-main{}
+.after-sale-main{
+  box-sizing: border-box;
+  padding: 2px 10px 0px 10px;
+}
 </style>

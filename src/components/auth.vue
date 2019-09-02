@@ -6,7 +6,7 @@
         class="auth-btn"
         open-type="getUserInfo"
         @getuserinfo="getUserInfo"
-      >授权登录</button>forest
+      >授权登录</button>
     </div>
   </div>
 </template>

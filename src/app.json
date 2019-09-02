@@ -1,13 +1,13 @@
 {
   "pages": [
+    "pages/orderManage/main",
     "pages/index/main",
     "pages/login/main",
     "pages/withdraw/main",
     "pages/changePassword/main",
     "pages/settings/main",
     "pages/promotion/main",
-    "pages/createCoupon/main",
-    "pages/orderManage/main"
+    "pages/createCoupon/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,5 +1,5 @@
 <template>
-  <div class="refund-main">
+  <div class="pending-receipt-main">
     <select-bar></select-bar>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.refund-main{
+.pending-receipt-main{
   box-sizing: border-box;
   padding: 2px 10px 0px 10px;
 }

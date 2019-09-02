@@ -1,7 +1,9 @@
 <template>
   <div class="order-manange-main">
     <van-tabs animated sticky swipeable color="#D00000">
-      <van-tab title="所有订单">所有订单</van-tab>
+      <van-tab title="所有订单">
+        <all-orders></all-orders>
+      </van-tab>
       <van-tab title="待提货">
         <pending-receipt></pending-receipt>
       </van-tab>
@@ -19,6 +21,7 @@
 </template>
 
 <script>
+import AllOrders from './components/allOrders'
 import AfterSale from './components/afterSale'
 import Refund from './components/refund'
 import PendingReceipt from './components/pendingReceipt'
@@ -26,6 +29,7 @@ import Received from './components/received'
 
 export default {
   components: {
+    AllOrders,
     AfterSale,
     Refund,
     PendingReceipt,
