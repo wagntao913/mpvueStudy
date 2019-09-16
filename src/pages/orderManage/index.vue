@@ -13,16 +13,12 @@
       <van-tab title="售后退款">
         <refund></refund>
       </van-tab>
-      <van-tab title="已售后">
-        <after-sale></after-sale>
-      </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
 import AllOrders from './components/allOrders'
-import AfterSale from './components/afterSale'
 import Refund from './components/refund'
 import PendingReceipt from './components/pendingReceipt'
 import Received from './components/received'
