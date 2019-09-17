@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SelectBar from './selectBar'
+import SelectBar from '../../components/selectBar'
 export default {
   components: {
     SelectBar

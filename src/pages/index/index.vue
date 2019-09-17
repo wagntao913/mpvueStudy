@@ -57,19 +57,19 @@
         <div class="card-divider"></div>
         <div class="card-content">
           <div class="order-manage">
-            <div class="order-item" @click="jumpPages('orderManage')">
+            <div class="order-item" @click="jumpPages('orderManage',0)">
               <i class="iconfont icon-wode-tidandaitihuo order-item-icon"></i>
               <p class="order-item-title">待提货订单</p>
             </div>
-            <div class="order-item" @click="jumpPages('promotion')">
+            <div class="order-item" @click="jumpPages('orderManage',1)">
               <i class="iconfont icon-yidongduanshangchuan- order-item-icon"></i>
               <p class="order-item-title">已提货订单</p>
             </div>
-            <div class="order-item" @click="jumpPages('promotion')">
+            <div class="order-item" @click="jumpPages('orderManage',2)">
               <i class="iconfont .icon-tuikuan order-item-icon"></i>
               <p class="order-item-title">待售后订单</p>
             </div>
-            <div class="order-item" @click="jumpPages('promotion')">
+            <div class="order-item" @click="jumpPages('afterSale')">
               <i class="iconfont icon-shangpin order-item-icon" style="font-size: 20px;"></i>
               <p class="order-item-title">已售出订单</p>
             </div>
@@ -98,21 +98,6 @@
           </div>
         </div>
       </div>
-      <!-- 测试 card组件 -->
-      <!-- <div>
-        <card
-          orderNo="123546456446"
-          status="待提货"
-        ></card>
-      </div> -->
-      <!-- 测试 cell组件 -->
-      <!-- <div style="margin:20px 10px 10px 10px;">
-        <filed
-          label="姓名"
-          placeholder="请输入姓名"
-          required
-        ></filed>
-      </div> -->
     </div>
     <div>
       <auth v-if="!isAuth" @getUserInfo="init"></auth>
@@ -124,15 +109,11 @@
 import { getSetting, getUserInfo } from '../../api/wechat'
 
 import imageView from '../../components/base/imageView'
-import card from '../../components/itemCard'
-import filed from '../../components/filed'
 import auth from '../../components/auth'
 
 export default {
   components: {
     imageView,
-    card,
-    filed,
     auth
   },
   data() {
@@ -152,8 +133,18 @@ export default {
     businessSetting () {
       this.$router.push('/pages/settings/main')
     },
-    jumpPages (type) {
-      this.$router.push('/pages/' + type + '/main')
+    jumpPages (type, active) {
+      // debugger
+      if (!active) {
+        this.$router.push('/pages/' + type + '/main')
+      } else {
+        this.$router.push({
+          path: '/pages/' + type + '/main',
+          query: {
+            active: active
+          }
+        })
+      }
     },
     // 授权
     getSetting() {

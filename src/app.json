@@ -7,7 +7,9 @@
     "pages/settings/main",
     "pages/promotion/main",
     "pages/orderManage/main",
-    "pages/createCoupon/main"
+    "pages/createCoupon/main",
+    "pages/afterSale/main",
+    "pages/activity/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

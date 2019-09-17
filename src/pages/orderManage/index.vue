@@ -1,6 +1,6 @@
 <template>
   <div class="order-manange-main">
-    <van-tabs animated sticky swipeable color="#D00000">
+    <van-tabs animated sticky swipeable color="#D00000" :active="active">
       <van-tab title="所有订单">
         <all-orders></all-orders>
       </van-tab>
@@ -26,10 +26,19 @@ import Received from './components/received'
 export default {
   components: {
     AllOrders,
-    AfterSale,
     Refund,
     PendingReceipt,
     Received
+  },
+  data() {
+    return {
+      active: 2
+    }
+  },
+  onShow() {
+    console.log(this.$route.query)
+    this.active = this.$route.query.active ? this.$route.query.active : '0'
+    console.log(this.active)
   }
 }
 </script>
