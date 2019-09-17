@@ -32,6 +32,7 @@ export function getUserInfo(onSuccess, onFail) {
     }
   })
 }
+
 // 轻提示
 export function showToast(title) {
   mpvue.showToast({
@@ -39,6 +40,7 @@ export function showToast(title) {
     duration: 2000
   })
 }
+
 // 更改导航栏标题
 export function setNavigationBarTitle(title) {
   mpvue.setNavigationBarTitle({ title })

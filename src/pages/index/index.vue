@@ -57,15 +57,15 @@
         <div class="card-divider"></div>
         <div class="card-content">
           <div class="order-manage">
-            <div class="order-item" @click="jumpPages('orderManage',0)">
+            <div class="order-item" @click="jumpPages('orderManage',1)">
               <i class="iconfont icon-wode-tidandaitihuo order-item-icon"></i>
               <p class="order-item-title">待提货订单</p>
             </div>
-            <div class="order-item" @click="jumpPages('orderManage',1)">
+            <div class="order-item" @click="jumpPages('orderManage',2)">
               <i class="iconfont icon-yidongduanshangchuan- order-item-icon"></i>
               <p class="order-item-title">已提货订单</p>
             </div>
-            <div class="order-item" @click="jumpPages('orderManage',2)">
+            <div class="order-item" @click="jumpPages('orderManage',3)">
               <i class="iconfont .icon-tuikuan order-item-icon"></i>
               <p class="order-item-title">待售后订单</p>
             </div>

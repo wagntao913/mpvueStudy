@@ -1,3 +1,4 @@
+// 创建fly实例
 function createFly() {
   if (mpvuePlatform === 'wx') { // 判断是否是微信平台
     const Fly = require('flyio/dist/npm/wx')
@@ -5,10 +6,11 @@ function createFly() {
   }
   return null
 }
+// 错误处理
 function handleError(params) {
   console.log(params)
 }
-
+// get方法
 export function get(url, params = {}) {
   const fly = createFly()
   if (fly) {
@@ -23,6 +25,7 @@ export function get(url, params = {}) {
     })
   }
 }
+// post方法
 export function post(url, params = {}) {
   const fly = createFly()
   if (fly) {
