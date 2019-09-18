@@ -107,6 +107,7 @@
 
 <script>
 import { getSetting, getUserInfo } from '../../api/wechat'
+// import { get } from '../../utils/request'
 
 import imageView from '../../components/base/imageView'
 import auth from '../../components/auth'
@@ -133,6 +134,7 @@ export default {
     businessSetting () {
       this.$router.push('/pages/settings/main')
     },
+    // 跳转页面
     jumpPages (type, active) {
       // debugger
       if (!active) {
@@ -140,9 +142,7 @@ export default {
       } else {
         this.$router.push({
           path: '/pages/' + type + '/main',
-          query: {
-            active: active
-          }
+          query: { active: active }
         })
       }
     },
