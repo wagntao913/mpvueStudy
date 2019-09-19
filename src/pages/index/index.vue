@@ -106,8 +106,8 @@
 </template>
 
 <script>
-import { getSetting, getUserInfo } from '../../api/wechat'
-// import { get } from '../../utils/request'
+import { getSetting, getUserInfo, wxLogin, setStorageSync, getStorageSync } from '../../api/wechat'
+import { loginWx } from '../../api'
 
 import imageView from '../../components/base/imageView'
 import auth from '../../components/auth'
@@ -164,7 +164,30 @@ export default {
     getUserInfo() {
       getUserInfo(
         (userInfo) => {
-          console.log(userInfo)
+          setStorageSync('userInfo', userInfo)
+          wxLogin('userInfo',
+            (res) => {
+              setStorageSync('wxCode', res.code)
+              let userInfo = getStorageSync('userInfo')
+              if (userInfo) {
+                let params = {
+                  'iv': userInfo.iv,
+                  'encryptedData': userInfo.encryptedData,
+                  'code': res.code
+                }
+                loginWx(params)
+                  .then(res => {
+                    console.log(res)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
+              }
+            },
+            (err) => {
+              console.log(err)
+            }
+          )
         },
         (res) => {
           console.log(res)

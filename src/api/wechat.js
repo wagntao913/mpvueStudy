@@ -1,8 +1,24 @@
+// 微信登录
+export function wxLogin (auth, onSuccess, onFail) {
+  mpvue.login({
+    success (res) {
+      console.log('== wxLogin ==', res)
+      if (res.code) {
+        onSuccess(res)
+      } else {
+        onFail(res)
+      }
+    },
+    fail (res) {
+      console.log(res)
+    }
+  })
+}
 // 获取授权信息
 export function getSetting (auth, onSuccess, onFail) {
   mpvue.getSetting({
     success (res) {
-      console.log(res)
+      console.log('== getSetting ==', res)
       if (res.authSetting[`scope.${auth}`]) {
         onSuccess(res)
       } else {
@@ -19,12 +35,12 @@ export function getSetting (auth, onSuccess, onFail) {
 export function getUserInfo(onSuccess, onFail) {
   mpvue.getUserInfo({
     success(res) {
-      console.log(res)
+      console.log('== getUserInfo ==', res)
       const { userInfo } = res
       if (userInfo) {
         onSuccess(res)
       } else {
-        onFail(res)
+        // onFail(res)
       }
     },
     fail(res) {
@@ -41,6 +57,15 @@ export function showToast(title) {
   })
 }
 
+// storage存储
+export function setStorageSync(key, data) {
+  mpvue.setStorageSync(key, data)
+}
+
+// storage获取
+export function getStorageSync(key) {
+  return mpvue.getStorageSync(key)
+}
 // 更改导航栏标题
 export function setNavigationBarTitle(title) {
   mpvue.setNavigationBarTitle({ title })

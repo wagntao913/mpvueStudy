@@ -22,3 +22,17 @@ export default {
   formatNumber,
   formatTime
 }
+// 错误处理
+export function handleError(response) {
+  if (response && response.data && response.data.error_code === 0) {
+    return true
+  } else {
+    const msg = response && response.data && response.data.msg
+    if (msg) {
+      showToast(msg)
+    } else {
+      setError('数据加载失败，请重试')
+    }
+    return false
+  }
+}
