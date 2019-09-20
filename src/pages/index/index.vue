@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { getSetting, getUserInfo, wxLogin, setStorageSync, getStorageSync } from '../../api/wechat'
+import { getSetting, getUserInfo, wxLogin, setStorageSync, getStorageSync, showToast } from '../../api/wechat'
 import { loginWx } from '../../api'
 
 import imageView from '../../components/base/imageView'
@@ -162,22 +162,29 @@ export default {
     },
     // 获取用户信息
     getUserInfo() {
+      // 微信 geUserInfo 接口
       getUserInfo(
         (userInfo) => {
-          setStorageSync('userInfo', userInfo)
+          setStorageSync('signature', userInfo.signature)
+          setStorageSync('iv', userInfo.iv)
+          setStorageSync('encryptedData', userInfo.encryptedData)
+          setStorageSync('userInfo', userInfo.userInfo)
+          // 微信 login 接口
           wxLogin('userInfo',
             (res) => {
               setStorageSync('wxCode', res.code)
               let userInfo = getStorageSync('userInfo')
               if (userInfo) {
-                let params = {
-                  'iv': userInfo.iv,
-                  'encryptedData': userInfo.encryptedData,
-                  'code': res.code
-                }
+                let params = { 'iv': userInfo.iv, 'encryptedData': userInfo.encryptedData, 'code': res.code }
+                // 登录授权管理接口--获取openId
                 loginWx(params)
                   .then(res => {
                     console.log(res)
+                    if (res.data.code === '000000') {
+                      setStorageSync('openId', res.data.data.openId)
+                    } else {
+                      showToast(res.data.message)
+                    }
                   })
                   .catch(err => {
                     console.log(err)
