@@ -53,8 +53,21 @@ export function getUserInfo(onSuccess, onFail) {
 export function showToast(title) {
   mpvue.showToast({
     title,
+    icon: 'none',
     duration: 2000
   })
+}
+
+// 展示加载
+export function showLoading(title) {
+  mpvue.showLoading({
+    title,
+    mask: true
+  })
+}
+// 隐藏加载中
+export function hideLoading() {
+  mpvue.hideLoading()
 }
 
 // storage存储

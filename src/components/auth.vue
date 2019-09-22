@@ -1,12 +1,13 @@
 <template>
   <div class="auth-main">
     <div class="auth-wrapper">
-      <div class="auth-content"></div>
-      <button
-        class="auth-btn"
-        open-type="getUserInfo"
-        @getuserinfo="getUserInfo"
-      >授权登录</button>
+      <img
+      src="https://gouma-jingxuan.oss-cn-hangzhou.aliyuncs.com/product/a9ae31ad-5961-493e-8f32-47db51ce1d45__20190725144735.jpg"
+      alt
+      mode="widthFix"
+      />
+      <p>购马精选 邵阳本土有情怀的电商</p>
+      <button open-type="getUserInfo" @getuserinfo="getUserInfo">授权登录</button>
     </div>
   </div>
 </template>
@@ -26,32 +27,31 @@
   position: fixed;
   left: 0;
   top: 0;
+  background: #fff;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.3);
-  // opacity: 0.38;
   z-index: 1000;
   display: flex;
   justify-content: center;
-  align-items: center;
   .auth-wrapper{
-    position: relative;
-    width: 270px;
-    height: 285px;
-    background:#f5f5f5;
-    border-radius: 18px;
-    .auth-btn{
-      position: absolute;
-      bottom: 0px;
-      left: 0px;
-      right: 0px;
-      width: 100%;
-      height: 49px;
-      line-height: 49px;
+    text-align: center;
+    img {
+      width: 210px;
+      margin: 65px auto;
+    }
+    p {
+      font-size: 21px;
+      margin-bottom: 110px;
+      color: #222222;
+    }
+    button {
+      width: 290px;
+      height: 45px;
+      line-height: 45px;
+      background: #D00000;
+      color: #ffffff;
       font-size: 15px;
-      color: #fff;
-      background-image: linear-gradient(90deg, #1EA3F5 0%, #0F87FC 100%);
-      border-radius: 0 0 18px 18px;
+      border-radius: 23px;
     }
   }
 }

@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { getSetting, getUserInfo, wxLogin, setStorageSync, getStorageSync, showToast } from '../../api/wechat'
+import { getSetting, getUserInfo, wxLogin, setStorageSync, getStorageSync, showToast, showLoading, hideLoading } from '../../api/wechat'
 import { loginWx } from '../../api'
 
 import imageView from '../../components/base/imageView'
@@ -151,6 +151,7 @@ export default {
       getSetting('userInfo',
         (res) => {
           console.log('==success==', res)
+          showLoading('正在加载...')
           this.isAuth = true
           this.getUserInfo()
         },
@@ -162,6 +163,7 @@ export default {
     },
     // 获取用户信息
     getUserInfo() {
+      // const vm = this
       // 微信 geUserInfo 接口
       getUserInfo(
         (userInfo) => {
@@ -181,8 +183,18 @@ export default {
                   .then(res => {
                     console.log(res)
                     if (res.data.code === '000000') {
-                      setStorageSync('openId', res.data.data.openId)
+                      hideLoading()
+                      // if (res.data.data) {
+                      //   vm.isAuth = true
+                      //   setStorageSync('openId', res.data.data.openId)
+                      // } else {
+                      //   showToast('获取用户信息失败，请重新登录！')
+                      //   setTimeout(() => {
+                      //     vm.$router.push('/pages/login/main')
+                      //   }, 2000)
+                      // }
                     } else {
+                      hideLoading()
                       showToast(res.data.message)
                     }
                   })
