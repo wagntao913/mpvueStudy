@@ -91,7 +91,7 @@
               <van-icon class="order-item-icon" name="gift-o" color="#D00000"></van-icon>
               <p class="order-item-title">活动管理</p>
             </div>
-            <div class="order-item" @click="jumpPages('withdraw')">
+            <div class="order-item" @click="jumpPages('withdrawalsRecord')">
               <van-icon class="order-item-icon" name="cash-back-record" color="#D00000"></van-icon>
               <p class="order-item-title">提现记录</p>
             </div>

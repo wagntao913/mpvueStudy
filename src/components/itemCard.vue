@@ -71,7 +71,6 @@ export default {
 .item-card-main{
   box-sizing: border-box;
   width:355px;
-  // height: 155px;
   margin:8px 0px 0px 0px;
   background:rgba(255,255,255,1);
   border-radius:5px;
@@ -83,9 +82,6 @@ export default {
     .tips{
 
     }
-    // .status{
-    //   color: #FA7921;
-    // }
   }
   .card-content{
     padding: 2px 27px 2px 10px;

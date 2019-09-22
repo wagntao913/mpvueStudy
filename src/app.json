@@ -9,7 +9,8 @@
     "pages/orderManage/main",
     "pages/createCoupon/main",
     "pages/afterSale/main",
-    "pages/activity/main"
+    "pages/activity/main",
+    "pages/withdrawalsRecord/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
