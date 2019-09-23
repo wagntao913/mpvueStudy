@@ -106,8 +106,7 @@
 </template>
 
 <script>
-import { getSetting, getUserInfo, wxLogin, setStorageSync, getStorageSync, showToast, showLoading, hideLoading } from '../../api/wechat'
-import { loginWx } from '../../api'
+import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
 
 import imageView from '../../components/base/imageView'
 import auth from '../../components/auth'
@@ -163,50 +162,22 @@ export default {
     },
     // 获取用户信息
     getUserInfo() {
-      // const vm = this
+      const vm = this
       // 微信 geUserInfo 接口
       getUserInfo(
         (userInfo) => {
-          setStorageSync('signature', userInfo.signature)
-          setStorageSync('iv', userInfo.iv)
-          setStorageSync('encryptedData', userInfo.encryptedData)
           setStorageSync('userInfo', userInfo.userInfo)
-          // 微信 login 接口
-          wxLogin('userInfo',
-            (res) => {
-              setStorageSync('wxCode', res.code)
-              let userInfo = getStorageSync('userInfo')
-              if (userInfo) {
-                let params = { 'iv': userInfo.iv, 'encryptedData': userInfo.encryptedData, 'code': res.code }
-                // 登录授权管理接口--获取openId
-                loginWx(params)
-                  .then(res => {
-                    console.log(res)
-                    if (res.data.code === '000000') {
-                      hideLoading()
-                      // if (res.data.data) {
-                      //   vm.isAuth = true
-                      //   setStorageSync('openId', res.data.data.openId)
-                      // } else {
-                      //   showToast('获取用户信息失败，请重新登录！')
-                      //   setTimeout(() => {
-                      //     vm.$router.push('/pages/login/main')
-                      //   }, 2000)
-                      // }
-                    } else {
-                      hideLoading()
-                      showToast(res.data.message)
-                    }
-                  })
-                  .catch(err => {
-                    console.log(err)
-                  })
-              }
-            },
-            (err) => {
-              console.log(err)
-            }
-          )
+          const openId = getStorageSync('openId')
+          if (!openId || openId.length === 0) {
+            showToast('第一次授权')
+            getUserOpenId(userInfo.iv, userInfo.encryptedData, (openId) => {
+              vm.$router.push('/pages/login/main')
+            })
+            hideLoading()
+          } else {
+            showToast('已获得openId')
+            hideLoading()
+          }
         },
         (res) => {
           console.log(res)

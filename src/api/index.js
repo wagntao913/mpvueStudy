@@ -3,36 +3,105 @@ import { post } from '../utils/request'
 const BASE_URL = 'http://col.gsgouma.com'
 
 /* 小程序登录授权管理 */
-export function loginWx(params) {
-  return post(`${BASE_URL}/api/business/login/loginWx`, params)
+export function loginWx(iv, encryptedData, code) {
+  return post(`${BASE_URL}/api/business/login/loginWx`, {iv, encryptedData, code})
 }
 
-/* 忘记密码 */
-export function userLogin(params) {
-  return post(`${BASE_URL}/api/business/user/userLogin`, params)
+/* 小程序用户登录 */
+export function userLogin(phone, password, openId) {
+  return post(`${BASE_URL}/api/business/user/userLogin`, {phone, password, openId})
 }
 
-/* 修改密码 */
-export function userResetPwd(params) {
-  return post(`${BASE_URL}/api/business/user/userResetPwd`, params)
+/* 忘记密码
+newPassword (string, optional): 新密码 ,
+openId (string, optional): openId ,
+password (string, optional): 密码 ,
+phone (string, optional): 电话号码 ,
+providerId (integer, optional): 登录用户id ,
+verificationCode (string, optional): 验证码 ,
+withdrawPassword (string, optional): 提现密码
+ */
+export function forgetPassword(verificationCode, phone, newPassword) {
+  return post(`${BASE_URL}/api/business/user/forgetPassword`, {verificationCode, phone, newPassword})
 }
 
-/* 设置提现密码 */
-export function withdrawPassword(params) {
-  return post(`${BASE_URL}/api/business/user/withdrawPassword`, params)
-}
-
-/* 修改商家 */
-export function updateUser(params) {
-  return post(`${BASE_URL}/api/business/user/updateUser`, params)
-}
-
-/* 发送验证码 */
+/* 发送验证码
+note (string, optional): 发送前缀 ,
+phone (string, optional): 电话号码
+*/
 export function sendCode(params) {
   return post(`${BASE_URL}/api/business/user/sendCode`, params)
 }
 
-/* 商家不同状态订单查询 */
+/* 修改密码
+newPassword (string, optional): 新密码 ,
+openId (string, optional): openId ,
+password (string, optional): 密码 ,
+phone (string, optional): 电话号码 ,
+providerId (integer, optional): 登录用户id ,
+verificationCode (string, optional): 验证码 ,
+withdrawPassword (string, optional): 提现密码
+*/
+export function userResetPwd(params) {
+  return post(`${BASE_URL}/api/business/user/userResetPwd`, params)
+}
+
+/* 设置提现密码
+newPassword (string, optional): 新密码 ,
+openId (string, optional): openId ,
+password (string, optional): 密码 ,
+phone (string, optional): 电话号码 ,
+providerId (integer, optional): 登录用户id ,
+verificationCode (string, optional): 验证码 ,
+withdrawPassword (string, optional): 提现密码
+*/
+export function withdrawPassword(params) {
+  return post(`${BASE_URL}/api/business/user/withdrawPassword`, params)
+}
+
+/* 修改商家
+addTime (integer, optional): 新增时间 ,
+cashDeposit (number, optional): 商家保证金 ,
+icon (string, optional): 商家头像 ,
+intro (string, optional): 商家介绍 ,
+name (string, optional): 商家名称 ,
+openId (string, optional): 商家微信信息id ,
+pageNum (integer, optional),
+pageSize (integer, optional),
+password (string, optional): 商家的登录密码 ,
+phone (string, optional): 商家电话（登录账号） ,
+providerId (integer, optional): 商家id ,
+updateTime (integer, optional): 修改时间 ,
+withdrawPassword (string, optional): 提现密码
+*/
+export function updateUser(params) {
+  return post(`${BASE_URL}/api/business/user/updateUser`, params)
+}
+
+/* 商家不同状态订单查询
+cardMoney (number, optional): 优惠卷金额 ,
+consignee (string, optional): consignee ,
+consigneeMobile (string, optional): 收货人电话 ,
+createTime (string, optional): 创建时间 ,
+endTime (string, optional),
+orderId (integer, optional),
+orderItem (Array[订单参数], optional): 订单明细 ,
+pageNum (integer, optional),
+pageSize (integer, optional),
+price (number, optional): 金额 ,
+productId (integer, optional): 产品id ,
+productName (string, optional): 商品名称 ,
+providerId (integer, optional): 供应商 ,
+quantity (integer, optional): 购买数量 ,
+refundQuantity (integer, optional): 退货数量 ,
+sendOrderId (integer, optional): 发货单id ,
+sendOrderSn (string, optional): 发货单号 ,
+sku (string, optional): sku ,
+skuInfo (string, optional): sku信息 ,
+startTime (string, optional),
+status (integer, optional): 状态1待发货 2发货 3 签收(已提货) 4完成 6待提货 ,
+totalMoney (number, optional): 总金额
+*/
 export function getOrderStatus(params) {
   return post(`${BASE_URL}/api/business/order/getOrderStatus`, params)
 }

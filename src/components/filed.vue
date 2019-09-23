@@ -1,8 +1,13 @@
 <template>
   <div class="filed-main">
     <!-- 左侧图标 -->
-    <div :left-icon="leftIcon" v-if="leftIcon">
-      <i :class="left_icon_classes"></i>
+    <div v-if="leftIcon">
+      <van-icon
+        class="search"
+        :name="leftIcon"
+        size="18px"
+        color="#858C96"
+      ></van-icon>
     </div>
     <!-- label标签 -->
     <div class="filed-label" :style="{width: labelWidth}" v-if="label">
@@ -11,8 +16,18 @@
       <i style="display: inline-block;color: #FA7921;" v-if="required">*</i>
     </div>
     <!-- 录入域 -->
-    <input :style="{width: inputWidth, textAlign: inputAlign}" class="filed-input" :type="inputType" :placeholder="placeholder" @blur="onblur">
-    <!-- <textarea v-if="inputType === 'textarea'" :placeholder="placeholder" :autoHeight="autoHeight" :maxlength="maxlength"></textarea> -->
+    <input
+      :style="{width: inputWidth, textAlign: inputAlign}"
+      :data-inputName='keyWord'
+      class="filed-input"
+      v-model="inputValue"
+      :disabled="disabled"
+      :maxlength="limit"
+      :password="password"
+      :placeholder="placeholder"
+      @blur="onblur"
+      @input="onChange"
+    />
     <!-- 右侧自定义 -->
     <div slot="extra"></div>
     <!-- 右侧图标 -->
@@ -27,6 +42,22 @@ export default {
     label: {// 标签名
       type: String,
       default: ''
+    },
+    focus: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    limit: {
+      type: Number,
+      default: 50
+    },
+    password: {
+      type: Boolean,
+      default: false
     },
     placeholder: {// 占位符内容
       type: String,
@@ -67,6 +98,15 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    keyWord: {
+      type: String,
+      default: ''
+    }
+  },
+  data () {
+    return {
+      inputValue: ''
     }
   },
   created () {
@@ -93,8 +133,19 @@ export default {
   methods: {
     // input失去焦点
     onblur() {
-      console.log('==onblur==')
-      // if(this.required)
+      this.$emit('onblur')
+    },
+    // input 输入监听
+    onChange(e) {
+      let inputName = e.mp.currentTarget.dataset.inputname
+      const { value } = e.mp.detail
+      this.$emit('onChange', inputName, value)
+    },
+    setValue(v) {
+      this.inputValue = v
+    },
+    getValue() {
+      return this.inputValue
     }
   }
 }
@@ -103,17 +154,24 @@ export default {
 .filed-main{
   box-sizing: border-box;
   padding: 5px;
-  background: #fff;
   width: 100%;
-  min-height: 40px;
+  min-height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #E5E5E5;
+  .search{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-right:5px;
+  }
   .filed-label{
     text-align: center;
   }
   .filed-input{
     padding-right: 5px;
+    height: 20px;
   }
 }
 </style>

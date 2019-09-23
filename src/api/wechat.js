@@ -1,19 +1,5 @@
-// 微信登录
-export function wxLogin (auth, onSuccess, onFail) {
-  mpvue.login({
-    success (res) {
-      console.log('== wxLogin ==', res)
-      if (res.code) {
-        onSuccess(res)
-      } else {
-        onFail(res)
-      }
-    },
-    fail (res) {
-      console.log(res)
-    }
-  })
-}
+import { loginWx } from './index'
+
 // 获取授权信息
 export function getSetting (auth, onSuccess, onFail) {
   mpvue.getSetting({
@@ -40,7 +26,7 @@ export function getUserInfo(onSuccess, onFail) {
       if (userInfo) {
         onSuccess(res)
       } else {
-        // onFail(res)
+        onFail(res)
       }
     },
     fail(res) {
@@ -49,6 +35,24 @@ export function getUserInfo(onSuccess, onFail) {
   })
 }
 
+// 获取用户 openId
+export function getUserOpenId(iv, encryptedData, callback) {
+  mpvue.login({
+    success(res) {
+      if (res.code) {
+        const {code} = res
+        loginWx(iv, encryptedData, code).then(res => {
+          console.log(res)
+          const { data: { data: { openId } } } = res
+          setStorageSync('openId', openId)
+          callback && callback(openId)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    }
+  })
+}
 // 轻提示
 export function showToast(title) {
   mpvue.showToast({

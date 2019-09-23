@@ -3,8 +3,10 @@
     <div class="login-banner">
       <div class="app-logo">
         <image-view
-          src="/static/images/avatar.jpg"
+          src="https://gouma-jingxuan.oss-cn-hangzhou.aliyuncs.com/product/a9ae31ad-5961-493e-8f32-47db51ce1d45__20190725144735.jpg"
           round
+          heihgt="200px"
+          width="150px"
         ></image-view>
       </div>
       <div class="banner-text">
@@ -13,18 +15,25 @@
     </div>
     <div class="login-box">
       <div class="login-content">
-        <van-field
+        <field
           placeholder="手机号码"
-          left-icon="phone"
-        ></van-field>
-        <van-field
+          leftIcon="phone"
+          keyWord="phone"
+          @onChange="onChange"
+          @onblur="onblur('phone')"
+        ></field>
+        <field
+          password
           placeholder="密码"
-          left-icon="lock"
-        ></van-field>
+          leftIcon="lock"
+          keyWord="password"
+          @onChange="onChange"
+          @onblur="onblur('password')"
+        ></field>
       </div>
       <div class="login-btn">
-        <van-button round size="large">登录</van-button>
-        <div class="froget-password">
+        <van-button round size="large" @click="login">登录</van-button>
+        <div class="froget-password" @click="forgetPassword">
           忘记密码？
         </div>
       </div>
@@ -32,35 +41,87 @@
   </div>
 </template>
 <script>
+import field from '../../components/filed.vue'
 import imageView from '../../components/base/imageView.vue'
+import { showToast, getStorageSync } from '../../api/wechat'
+import { userLogin } from '../../api/index'
 export default {
   components: {
+    field,
     imageView
   },
   data () {
     return {
-      test: 'login'
+      phone: '',
+      password: ''
     }
   },
-  mounted() {}
+  mounted() {},
+  methods: {
+    onChange(keyword, value) {
+      console.log(keyword, value)
+      this[keyword] = value
+    },
+    onblur(type) {
+      if (type === 'phone') {
+        if (!this.phone) {
+          showToast('请输入手机号!')
+          return false
+        } else if (!(/^1[3456789]\d{9}$/.test(this.phone))) {
+          showToast('请输入正确的手机号!')
+          return false
+        }
+      } else if (type === 'password') {
+        if (!this.password) {
+          showToast('请输入密码!')
+          return false
+        }
+      }
+    },
+    login() {
+      console.log(this.password, this.phone)
+      let openId = getStorageSync('')
+      if (!this.phone) {
+        showToast('请输入手机号!')
+        return
+      } else if (!(/^1[3456789]\d{9}$/.test(this.phone))) {
+        showToast('手机号不合法，请重新输入')
+        return
+      } else if (this.password) {
+        showToast('请输入密码！')
+        return
+      }
+      userLogin(this.phone, this.password, openId).then(res => {
+        console.log(res)
+      })
+      console.log('== login ==')
+    },
+    forgetPassword() {
+      console.log('== forgetPassword ==')
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
+
 .login-main{
-  background: #fff;
-  height: 667px;
+  height: 100%;
+  position: relative;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
   box-sizing: border-box;
+  background: linear-gradient(#D00000, #ffffff 60%);
   .login-banner{
     height: 300px;
     padding-top: 57px;
-    background-color: #D00000;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     .app-logo{
-      height: 105px;
-      width:100px;
+      margin-bottom: 40px;
     }
   }
   .login-box{
