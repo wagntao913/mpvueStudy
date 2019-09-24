@@ -45,18 +45,21 @@
 
 <script>
 import { getListFinance } from '../../api/index'
-import { getStorageSync, showToast } from '../../api/wechat'
+import { getStorageSync } from '../../api/wechat'
 export default {
   data() {
     return {
       recordList: []
     }
   },
+  onShow() {
+    this.init()
+  },
   methods: {
     init() {
       let providerId = getStorageSync('providerId')
       getListFinance(providerId).then(res => {
-        showToast(res)
+        console.log(res.data)
       })
     }
   }

@@ -61,7 +61,7 @@ export default {
   mounted() {},
   methods: {
     onChange(keyword, value) {
-      console.log(keyword, value)
+      // console.log(keyword, value)
       this[keyword] = value
     },
     onblur(type) {

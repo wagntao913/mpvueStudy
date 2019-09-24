@@ -120,6 +120,12 @@ export function getOrderStatus(params) {
   return post(`${BASE_URL}/api/business/order/getOrderStatus`, params)
 }
 
+/* POST /api/business/finance/getWithdrawMoney
+商家可提现金额(还不可用) */
+export function getWithdrawMoney(params) {
+  return post(`${BASE_URL}/api/business/finance/getWithdrawMoney`, params)
+}
+
 /* 查询近30天销售金额 */
 export function get30Sale(params) {
   return post(`${BASE_URL}/api/business/act/get30Sale`, params)

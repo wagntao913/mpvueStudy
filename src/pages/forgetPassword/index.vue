@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     onChange(keyword, value) {
-      console.log(keyword, value)
+      // console.log(keyword, value)
       this[keyword] = value
     },
     getCode() {

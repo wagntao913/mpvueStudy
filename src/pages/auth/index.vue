@@ -7,13 +7,13 @@
         mode="widthFix"
       />
       <p>购马精选 邵阳本土有情怀的电商</p>
-      <button open-type="getUserInfo" @getuserinfo="getUserInfo">授权登录</button>
+      <button open-type="getUserInfo" @getuserinfo="init">授权登录</button>
     </div>
   </div>
 </template>
 
 <script>
-import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
+import { getSetting, getUserInfo, setStorageSync, getStorageSync, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
 export default {
   mounted () {
     this.init()
@@ -41,15 +41,13 @@ export default {
           setStorageSync('userInfo', userInfo.userInfo)
           const openId = getStorageSync('openId')
           if (!openId || openId.length === 0) {
-            showToast('第一次授权')
             getUserOpenId(userInfo.iv, userInfo.encryptedData, (openId) => {
               vm.$router.push('/pages/login/main')
             })
             hideLoading()
           } else {
             vm.$router.push('/pages/index/main')
-            // showToast('已获得openId')
-            hideLoading()
+            // hideLoading()
           }
         },
         (res) => {

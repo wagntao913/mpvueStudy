@@ -104,7 +104,9 @@
 
 <script>
 // import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
-import { getStorageSync } from '../../api/wechat'
+import { getStorageSync, showToast } from '../../api/wechat'
+import { getVisitor, getTodaySale, getSevenSale, get30Sale } from '../../api/index'
+import { createFly } from '../../utils/request'
 
 import imageView from '../../components/base/imageView'
 
@@ -118,9 +120,24 @@ export default {
     }
   },
   mounted () {
+    this.init()
     this.providerInfo = getStorageSync('providerInfo') || {}
   },
   methods: {
+    init() {
+      const fly = createFly()
+      fly.all([
+        getVisitor(),
+        getTodaySale(),
+        getSevenSale(),
+        // getWithdrawMoney(),
+        get30Sale()
+      ]).then(fly.spread((visitors, todaySale, sevenSale, monthSale) => {
+        console.log(visitors.data, todaySale.data, sevenSale.data, monthSale.data)
+      })).catch((err) => {
+        showToast(err)
+      })
+    },
     // 跳转提现页面
     takeOut () {
       this.$router.push('/pages/withdraw/main')

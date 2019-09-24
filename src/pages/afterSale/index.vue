@@ -6,9 +6,28 @@
 
 <script>
 import SelectBar from '../../components/selectBar'
+import { getOrderStatus } from '../../api/index'
+
 export default {
   components: {
     SelectBar
+  },
+  data() {
+    return {
+      afterSaleList: []
+    }
+  },
+  onShow() {
+    this.init()
+  },
+  methods: {
+    init() {
+      getOrderStatus().then(res => {
+        console.log(res.data)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>
