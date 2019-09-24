@@ -1,3 +1,5 @@
+import crypto from 'crypto'
+
 function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -31,8 +33,26 @@ export function handleError(response) {
     if (msg) {
       showToast(msg)
     } else {
-      setError('数据加载失败，请重试')
+      // setError('数据加载失败，请重试')
     }
     return false
   }
+}
+
+// 轻提示
+export function showToast(title) {
+  mpvue.showToast({
+    title,
+    icon: 'none',
+    duration: 2000
+  })
+}
+
+// md5密码加密
+export function passwordChange(password) {
+  const md5 = crypto.createHash('md5')
+  md5.update(password)
+  let md5password = md5.digest('hex')
+  console.log(md5password)
+  return md5password
 }

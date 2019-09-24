@@ -1,6 +1,6 @@
 <template>
   <div class="index-main">
-    <div class="index-wrapper" v-if="isAuth">
+    <div class="index-wrapper">
       <div class="user-wrapper">
         <!-- <div class="page-title">
           商家中心
@@ -8,21 +8,21 @@
         <div class="user-content">
           <div class="user-avatar">
             <image-view
-              src="/static/images/avatar.jpg"
+              :src="providerInfo.icon"
               round
               width="50px;"
             ></image-view>
           </div>
           <div class="user-info">
             <div class="user-name">
-              旺果阳光
+              {{ providerInfo.name }}
             </div>
             <div class="user-text">
               <div class="user-desc">
-                专门从事芒果采加销的水果商行
+                {{ providerInfo.intro }}
               </div>
               <div class="user-promise">
-                保证金余额：5000元
+                保证金余额：{{ providerInfo.cashDeposit }}元
               </div>
             </div>
           </div>
@@ -99,30 +99,26 @@
         </div>
       </div>
     </div>
-    <div>
-      <auth v-if="!isAuth" @getUserInfo="init"></auth>
-    </div>
   </div>
 </template>
 
 <script>
-import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
+// import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
+import { getStorageSync } from '../../api/wechat'
 
 import imageView from '../../components/base/imageView'
-import auth from '../../components/auth'
 
 export default {
   components: {
-    imageView,
-    auth
+    imageView
   },
   data() {
     return {
-      isAuth: false
+      providerInfo: {}
     }
   },
   mounted () {
-    this.init()
+    this.providerInfo = getStorageSync('providerInfo') || {}
   },
   methods: {
     // 跳转提现页面
@@ -144,48 +140,6 @@ export default {
           query: { active: active }
         })
       }
-    },
-    // 授权
-    getSetting() {
-      getSetting('userInfo',
-        (res) => {
-          console.log('==success==', res)
-          showLoading('正在加载...')
-          this.isAuth = true
-          this.getUserInfo()
-        },
-        (res) => {
-          console.log('==fail==', res)
-          this.isAuth = false
-        }
-      )
-    },
-    // 获取用户信息
-    getUserInfo() {
-      const vm = this
-      // 微信 geUserInfo 接口
-      getUserInfo(
-        (userInfo) => {
-          setStorageSync('userInfo', userInfo.userInfo)
-          const openId = getStorageSync('openId')
-          if (!openId || openId.length === 0) {
-            showToast('第一次授权')
-            getUserOpenId(userInfo.iv, userInfo.encryptedData, (openId) => {
-              vm.$router.push('/pages/login/main')
-            })
-            hideLoading()
-          } else {
-            showToast('已获得openId')
-            hideLoading()
-          }
-        },
-        (res) => {
-          console.log(res)
-        }
-      )
-    },
-    init() {
-      this.getSetting()
     }
   }
 }

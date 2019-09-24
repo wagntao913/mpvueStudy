@@ -43,8 +43,10 @@
 <script>
 import field from '../../components/filed.vue'
 import imageView from '../../components/base/imageView.vue'
-import { showToast, getStorageSync } from '../../api/wechat'
+import { showToast, getStorageSync, setStorageSync } from '../../api/wechat'
 import { userLogin } from '../../api/index'
+import { passwordChange } from '../../utils/index'
+
 export default {
   components: {
     field,
@@ -90,8 +92,17 @@ export default {
         return false
       }
       let openId = getStorageSync('openId')
-      userLogin(this.phone, this.password, openId).then(res => {
+      let md5Password = passwordChange(this.password)
+      userLogin(this.phone, md5Password, openId).then(res => {
         console.log(res)
+        if (res.data.code === '000000') {
+          console.log(res.data.data)
+          setStorageSync('providerInfo', res.data.data)
+          setStorageSync('providerId', res.data.data.providerId)
+          this.$router.push('/pages/index/main')
+        } else {
+          showToast(res.data.message)
+        }
       })
       console.log('== login ==')
     },
