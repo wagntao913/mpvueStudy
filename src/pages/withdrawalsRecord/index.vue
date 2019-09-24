@@ -44,8 +44,22 @@
 </template>
 
 <script>
+import { getListFinance } from '../../api/index'
+import { getStorageSync, showToast } from '../../api/wechat'
 export default {
-
+  data() {
+    return {
+      recordList: []
+    }
+  },
+  methods: {
+    init() {
+      let providerId = getStorageSync('providerId')
+      getListFinance(providerId).then(res => {
+        showToast(res)
+      })
+    }
+  }
 }
 </script>
 
@@ -54,7 +68,7 @@ export default {
   .record-card{
     box-sizing: border-box;
     width:354px;
-    margin:8px 10px 0px 11px;
+    margin:8px 8px 0px 8px;
     background:rgba(255,255,255,1);
     border-radius:5px;
     padding: 10px 10px;

@@ -92,7 +92,7 @@ export default {
       }
       let openId = getStorageSync('openId')
       forgetPassword(openId, this.phone, this.newPassword, this.verificationCode).then((res) => {
-
+        console.log(res)
       })
     }
   }

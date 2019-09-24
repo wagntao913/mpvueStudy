@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/index/main",
     "pages/login/main",
     "pages/forgetPassword/main",
-    "pages/index/main",
     "pages/withdraw/main",
     "pages/changePassword/main",
     "pages/settings/main",

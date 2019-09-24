@@ -78,6 +78,20 @@ export function updateUser(params) {
   return post(`${BASE_URL}/api/business/user/updateUser`, params)
 }
 
+/* 获取提现审核记录
+addTime (integer, optional): 新增时间 ,
+auditOpinion (string, optional): 审核意见 ,
+id (integer, optional): 主键id ,
+pageNum (integer, optional),
+pageSize (integer, optional),
+providerId (integer, optional): 供应商id ,
+reviewProgress (integer, optional): 审核进度 0审核中 1审核通过 2审核未通过 3转账 ,
+updateTime (integer, optional): 修改时间 ,
+withdrawMoney (number, optional): 提现金额
+*/
+export function getListFinance(providerId, pageSize, pageNum, reviewProgress) {
+  return post(`${BASE_URL}/api/business/finance/getListFinance`, { providerId, pageSize, pageNum, reviewProgress })
+}
 /* 商家不同状态订单查询
 cardMoney (number, optional): 优惠卷金额 ,
 consignee (string, optional): consignee ,
