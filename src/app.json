@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/login/main",
+    "pages/forgetPassword/main",
     "pages/index/main",
     "pages/withdraw/main",
     "pages/changePassword/main",

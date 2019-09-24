@@ -28,8 +28,10 @@
       @blur="onblur"
       @input="onChange"
     />
-    <!-- 右侧自定义 -->
-    <div slot="extra"></div>
+    <!-- 右侧按钮 -->
+    <div v-if="showButton" class="right-extra" :style="{width: buttonWidth}" slot="extra">
+      <van-button square type="default" @click="onClick">{{ buttonText }}</van-button>
+    </div>
     <!-- 右侧图标 -->
     <div :left-icon="rightIcon" v-if="rightIcon">
       <i :class="right_icon_classes"></i>
@@ -102,6 +104,18 @@ export default {
     keyWord: {
       type: String,
       default: ''
+    },
+    buttonWidth: {
+      type: String,
+      default: '0'
+    },
+    showButton: {
+      type: Boolean,
+      default: false
+    },
+    buttonText: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -122,11 +136,18 @@ export default {
   },
   watch: {
     label(newValue, oldValue) {
-      if (newValue && !this.labelWidth) {
+      if (newValue && this.labelWidth !== '0') {
         this.labelWidth = '20%'
         this.inputWidth = '80%'
       } else if (newValue && this.labelWidth) {
         this.inputWidth = 1 - parseFloat(this.labelWidth)
+      }
+    },
+    buttonWidth(newVal, oldVal) {
+      if (newVal && this.labelWidth !== '0') {
+        this.inputWidth = 1 - parseFloat(this.labelWidth) - parseFloat(newVal)
+      } else if (newVal && this.labelWidth === '0') {
+        this.inputWidth = 1 - parseFloat(newVal)
       }
     }
   },
@@ -140,6 +161,11 @@ export default {
       let inputName = e.mp.currentTarget.dataset.inputname
       const { value } = e.mp.detail
       this.$emit('onChange', inputName, value)
+    },
+    // 右侧按钮点击事件
+    onClick() {
+      console.log('== click ==')
+      this.$emit('onButtonClick')
     },
     setValue(v) {
       this.inputValue = v
@@ -168,10 +194,14 @@ export default {
   }
   .filed-label{
     text-align: center;
+    flex-shrink: 0;
   }
   .filed-input{
     padding-right: 5px;
     height: 20px;
+  }
+  .right-extra{
+
   }
 }
 </style>

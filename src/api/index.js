@@ -21,16 +21,16 @@ providerId (integer, optional): 登录用户id ,
 verificationCode (string, optional): 验证码 ,
 withdrawPassword (string, optional): 提现密码
  */
-export function forgetPassword(verificationCode, phone, newPassword) {
-  return post(`${BASE_URL}/api/business/user/forgetPassword`, {verificationCode, phone, newPassword})
+export function forgetPassword(verificationCode, phone, newPassword, openId) {
+  return post(`${BASE_URL}/api/business/user/forgetPassword`, {verificationCode, phone, newPassword, openId})
 }
 
 /* 发送验证码
 note (string, optional): 发送前缀 ,
 phone (string, optional): 电话号码
 */
-export function sendCode(params) {
-  return post(`${BASE_URL}/api/business/user/sendCode`, params)
+export function sendCode(phone, note) {
+  return post(`${BASE_URL}/api/business/user/sendCode`, { phone, note })
 }
 
 /* 修改密码

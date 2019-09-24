@@ -79,18 +79,17 @@ export default {
       }
     },
     login() {
-      console.log(this.password, this.phone)
-      let openId = getStorageSync('')
       if (!this.phone) {
         showToast('请输入手机号!')
-        return
+        return false
       } else if (!(/^1[3456789]\d{9}$/.test(this.phone))) {
         showToast('手机号不合法，请重新输入')
-        return
-      } else if (this.password) {
+        return false
+      } else if (!this.password) {
         showToast('请输入密码！')
-        return
+        return false
       }
+      let openId = getStorageSync('openId')
       userLogin(this.phone, this.password, openId).then(res => {
         console.log(res)
       })
@@ -98,6 +97,7 @@ export default {
     },
     forgetPassword() {
       console.log('== forgetPassword ==')
+      this.$router.push('/pages/forgetPassword/main')
     }
   }
 }
