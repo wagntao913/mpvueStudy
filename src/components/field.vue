@@ -25,7 +25,7 @@
       :disabled="disabled"
       :maxlength="limit"
       :password="password"
-      :placeholder="placeholder"
+      :placeholder="placeholder"newValue
       @blur="onblur"
       @input="onChange"
     />
