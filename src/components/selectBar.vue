@@ -1,10 +1,10 @@
 <template>
   <div class="select-bar-main">
     <div class="select-start">
-      <filed placeholder="开始时间" labelWidth="10%"></filed>
+      <field placeholder="开始时间" labelWidth="10%"></field>
     </div>
     <div class="select-end">
-      <filed placeholder="结束时间"></filed>
+      <field placeholder="结束时间"></field>
     </div>
      <!-- 时间弹出框 -->
     <van-popup :show="showDatePicker" position="bottom">
@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import Filed from './filed'
+import field from './field'
 export default {
   components: {
-    Filed
+    field
   },
   data() {
     return {

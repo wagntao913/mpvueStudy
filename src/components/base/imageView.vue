@@ -13,7 +13,7 @@
     <img
       :class="round ? 'round image' : ' image'"
       :style="{ width, height }"
-      src="/static/images/user.png"
+      src="https://gouma-jingxuan.oss-cn-hangzhou.aliyuncs.com/product/a9ae31ad-5961-493e-8f32-47db51ce1d45__20190725144735.jpg"
       :mode="mode"
       :lazy-load="lazyLoad"
       v-show="isLoading || error"

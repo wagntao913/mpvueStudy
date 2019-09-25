@@ -2,7 +2,7 @@
   <div class="change-password-main">
     <div class="change-password-wrapper">
       <field
-        labelWidth="20%"
+        labelWidth="30%"
         type="password"
         label="手机号"
         placeholder="请输入手机号"
@@ -11,7 +11,7 @@
       ></field>
       <field
         showButton
-        labelWidth="20%"
+        labelWidth="30%"
         type="password"
         label="验证码"
         placeholder="请输入验证码"
@@ -22,15 +22,15 @@
         @onChange="onChange"
       ></field>
       <field
-        labelWidth="20%"
+        labelWidth="30%"
         type="password"
-        label="新密码"
-        placeholder="请输入新密码"
+        label="提现密码"
+        placeholder="请输入提现密码"
         password
         keyWord="newPassword"
         @onChange="onChange"
       ></field>
-      <div class="tips">密码必须是6-20个英文字母、数字或符号（除空格），且字母、数字和标点 符号至少包含两种。</div>
+      <div class="tips">提现密码为纯数字</div>
       <div class="change-password-btn">
         <van-button round @click="resetPassword">确认修改</van-button>
       </div>
@@ -116,7 +116,7 @@ export default {
       text-align: center;
       margin-top: 24px;
       /deep/ .van-button--default{
-        background-color: #D00000;
+        background-color: #D000006;
         color: #fff;
         width: 130px;
       }

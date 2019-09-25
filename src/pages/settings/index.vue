@@ -1,33 +1,86 @@
 <template>
   <div class="settings-main">
     <div class="settings-wrapper">
-      <van-field label="头像" disabled>
-        <div slot="button">
-          <image-view src="/static/images/avatar.jpg" round width="20px"
-          ></image-view>
-        </div>
-      </van-field>
-      <van-field disabled label="商户名称">旺果阳光</van-field>
-      <van-field label="修改密码" right-icon="arrow" @click="changePassword" disabled></van-field>
-      <van-field label="店铺介绍" type="textarea" autosize></van-field>
-      <div class="tips">以上内容会展示再商品详情页，请认真填写！</div>
-      <div class="settings-btn">
-        <van-button round>提交</van-button>
-      </div>
+      <field
+        disabled
+        showAvatar
+        labelWidth="20%"
+        label="商户头像"
+        :avatarUrl ="providerInfo.icon"
+        rightIcon="arrow"
+      ></field>
+      <field
+        labelWidth="20%"
+        label="商户名称"
+        keyWord="name"
+        :inputValue="providerInfo.name"
+        @onChange="onChange"
+      ></field>
+      <field
+        textarea
+        labelWidth="20%"
+        label="店铺介绍"
+        keyWord="intro"
+        :inputValue="providerInfo.intro"
+        @onChange="onChange"
+      ></field>
+    </div>
+    <div class="tips">以上内容会展示再商品详情页，请认真填写！</div>
+    <div class="changePassword" @click="changePassword">
+      <field
+        labelWidth="30%"
+        label="修改登录密码"
+        rightIcon="arrow"
+        disabled
+      ></field>
+    </div>
+    <div class="changePassword" @click="changeWithdrawPassword">
+      <field
+        labelWidth="30%"
+        label="修改提现密码"
+        rightIcon="arrow"
+        disabled
+      ></field>
+    </div>
+    <div class="settings-btn">
+      <van-button round>提交</van-button>
     </div>
   </div>
 </template>
 
 <script>
+import field from '../../components/field.vue'
 import imageView from '../../components/base/imageView'
+import { getStorageSync } from '../../api/wechat'
+
 export default {
   components: {
-    imageView
+    imageView,
+    field
+  },
+  data() {
+    return {
+      providerInfo: {}
+    }
+  },
+  onShow() {
+    this.init()
   },
   methods: {
+    init() {
+      this.providerInfo = getStorageSync('providerInfo')
+    },
+    onChange(keyword, value) {
+      // console.log(keyword, value)
+      this.providerInfo[keyword] = value
+    },
     // 跳转密码修改页面
     changePassword () {
       this.$router.push('/pages/changePassword/main')
+    },
+    // 跳转修改提现密码页面
+    changeWithdrawPassword() {
+      this.$router.push('/pages/changeWithdrawPassword/main')
     }
   }
 }
@@ -44,20 +97,29 @@ export default {
     // height:346px;
     background:rgba(255,255,255,1);
     border-radius:5px;
-    .tips{
-      color:#888888;
-      font-size: 11px;
-      margin:9px 0px 0px 15px;
-    }
-    .settings-btn{
-      text-align: center;
-      margin-top: 24px;
-      padding-bottom: 22px;
-      /deep/ .van-button--default{
-        background-color: #FA7921;
-        color: #fff;
-        width: 130px;
-      }
+    margin: 10px 0;
+  }
+  .tips{
+    color:#888888;
+    font-size: 11px;
+    margin:15px 0px 15px 5px;
+  }
+  .changePassword{
+    box-sizing: border-box;
+    border-radius: 10px;
+    width:354px;
+    margin: 5px 0;
+    background:rgba(255,255,255,1);
+    border-radius:5px;
+  }
+  .settings-btn{
+    text-align: center;
+    margin-top: 24px;
+    padding-bottom: 22px;
+    /deep/ .van-button--default{
+      background-color: #D00000;
+      color: #fff;
+      width: 130px;
     }
   }
 }

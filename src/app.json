@@ -12,7 +12,8 @@
     "pages/createCoupon/main",
     "pages/afterSale/main",
     "pages/activity/main",
-    "pages/withdrawalsRecord/main"
+    "pages/withdrawalsRecord/main",
+    "pages/changeWithdrawPassword/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,13 +24,13 @@
   "usingComponents": {
     "van-button": "vant-weapp/dist/button/index",
     "van-icon": "vant-weapp/dist/icon/index",
-    "van-field": "/vant-weapp/dist/field/index",
-    "van-cell": "/vant-weapp/dist/cell/index",
-    "van-cell-group": "/vant-weapp/dist/cell-group/index",
-    "van-popup": "/vant-weapp/dist/popup/index",
-    "van-picker": "/vant-weapp/dist/picker/index",
-    "van-datetime-picker": "/vant-weapp/dist/datetime-picker/index",
-    "van-tab": "/vant-weapp/dist/tab/index",
-    "van-tabs": "/vant-weapp/dist/tabs/index"
+    "van-field": "vant-weapp/dist/field/index",
+    "van-cell": "vant-weapp/dist/cell/index",
+    "van-cell-group": "vant-weapp/dist/cell-group/index",
+    "van-popup": "vant-weapp/dist/popup/index",
+    "van-picker": "vant-weapp/dist/picker/index",
+    "van-datetime-picker": "vant-weapp/dist/datetime-picker/index",
+    "van-tab": "vant-weapp/dist/tab/index",
+    "van-tabs": "vant-weapp/dist/tabs/index"
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="filed-main">
+  <div class="field-main">
     <!-- 左侧图标 -->
     <div v-if="leftIcon">
       <van-icon
@@ -10,16 +10,17 @@
       ></van-icon>
     </div>
     <!-- label标签 -->
-    <div class="filed-label" :style="{width: labelWidth}" v-if="label">
+    <div class="field-label" :style="{width: labelWidth}" v-if="label">
       <i style="display: inline-block">{{ label }}</i>
       <!-- 必录标识 -->
       <i style="display: inline-block;color: #FA7921;" v-if="required">*</i>
     </div>
     <!-- 录入域 -->
     <input
+      v-if="!textarea"
       :style="{width: inputWidth, textAlign: inputAlign}"
       :data-inputName='keyWord'
-      class="filed-input"
+      class="field-input"
       v-model="inputValue"
       :disabled="disabled"
       :maxlength="limit"
@@ -28,36 +29,62 @@
       @blur="onblur"
       @input="onChange"
     />
+    <!-- 多行录入域 -->
+    <textarea
+      v-if= "textarea"
+      :style="{width: inputWidth, textAlign: inputAlign}"
+      :data-inputName='keyWord'
+      class="field-input"
+      v-model="inputValue"
+      :disabled="disabled"
+      auto-height
+      :password="password"
+      :placeholder="placeholder"
+      @blur="onblur"
+      @input="onChange"
+    ></textarea>
     <!-- 右侧按钮 -->
-    <div v-if="showButton" class="right-extra" :style="{width: buttonWidth}" slot="extra">
+    <div v-if="showButton" class="right-extra" :style="{width: buttonWidth}">
       <van-button square type="default" @click="onClick">{{ buttonText }}</van-button>
     </div>
-    <!-- 右侧图标 -->
-    <div :left-icon="rightIcon" v-if="rightIcon">
-      <i :class="right_icon_classes"></i>
+    <div  v-if="showAvatar" class="right-extra" style="width: 10% ">
+      <image-view :src="avatarUrl" round width="30px"></image-view>
     </div>
+    <!-- 右侧图标 -->
+    <div v-if="rightIcon">
+      <van-icon
+        class="search"
+        :name="rightIcon"
+        size="18px"
+        color="#858C96"
+      ></van-icon>
+    </div>
+    <!-- <div :left-icon="rightIcon" v-if="rightIcon">
+      <i :class="right_icon_classes"></i>
+    </div> -->
   </div>
 </template>
 <script>
+import imageView from './base/imageView.vue'
+
 export default {
+  components: {
+    imageView
+  },
   props: {
     label: {// 标签名
       type: String,
       default: ''
     },
-    focus: {
+    disabled: { // 是否禁用
       type: Boolean,
       default: false
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    limit: {
+    limit: { // 最大输入长度
       type: Number,
       default: 50
     },
-    password: {
+    password: { // 是否为密码输入样式
       type: Boolean,
       default: false
     },
@@ -77,13 +104,9 @@ export default {
       type: String,
       default: '100%'
     },
-    inputAlign: {
+    inputAlign: { // 对齐方式
       type: String,
       default: 'left'
-    },
-    autoHeight: {// textarea时，是否为自动高度
-      type: Boolean,
-      default: false
     },
     maxlength: {// 输入的最大长度
       type: String,
@@ -97,24 +120,40 @@ export default {
       type: String,
       default: ''
     },
-    required: {
+    required: { // 是否必填
       type: Boolean,
       default: false
     },
-    keyWord: {
+    keyWord: { // 绑定字段，为了进行双向数据绑定
       type: String,
       default: ''
     },
-    buttonWidth: {
+    buttonWidth: { // 按钮宽度
       type: String,
       default: '0'
     },
-    showButton: {
+    showButton: { // 右侧展示按钮
       type: Boolean,
       default: false
     },
-    buttonText: {
+    buttonText: { // 按钮文本
       type: String,
+      default: ''
+    },
+    showAvatar: { // 右侧展示头像
+      type: Boolean,
+      default: false
+    },
+    avatarUrl: { // 图片地址，默认取购马图标
+      type: String,
+      default: 'https://gouma-jingxuan.oss-cn-hangzhou.aliyuncs.com/product/a9ae31ad-5961-493e-8f32-47db51ce1d45__20190725144735.jpg'
+    },
+    textarea: {
+      type: Boolean,
+      default: false
+    },
+    inputValue: {
+      type: [String, Number],
       default: ''
     }
   },
@@ -177,7 +216,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.filed-main{
+.field-main{
   box-sizing: border-box;
   padding: 5px;
   width: 100%;
@@ -192,12 +231,13 @@ export default {
     height: 100%;
     margin-right:5px;
   }
-  .filed-label{
-    text-align: center;
+  .field-label{
+    text-align: left;
+    margin-left: 5px;
     flex-shrink: 0;
   }
-  .filed-input{
-    padding-right: 5px;
+  .field-input{
+    padding: 0 5px;
     height: 20px;
   }
   .right-extra{

@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import field from '../../components/filed.vue'
+import field from '../../components/field.vue'
 import imageView from '../../components/base/imageView.vue'
 import { showToast, getStorageSync, setStorageSync } from '../../api/wechat'
 import { userLogin } from '../../api/index'

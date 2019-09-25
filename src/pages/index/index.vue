@@ -39,13 +39,13 @@
           <div class="business-data">
             <div class="business-data-left">
               <p>今日销售额：<span style="color:red">¥3699</span></p>
-              <p>今日加购人数：12</p>
-              <p>本周销售金额：524.3</p>
+              <!-- <p>今日加购人数：12</p> -->
+              <p>三十天销售额：8752</p>
+              <p>七天销售金额：524.3</p>
             </div>
             <div class="business-data-right">
               <p>可提现金额：<span style="color:red">¥1550.10</span></p>
-              <p>今日访客：13</p>
-              <p>本月销售额：8752</p>
+              <p>访客数：13</p>
             </div>
           </div>
         </div>
@@ -178,6 +178,7 @@ export default {
         position: relative;
         padding: 50px 12px 10px 12px;
         display: flex;
+        // align-items: top;
         .user-avatar{
           height: 50px;
           width: 50px;
@@ -225,7 +226,7 @@ export default {
         .business-data{
           display: flex;
           justify-content: space-around;
-          align-items: center;
+          // align-items: center;
           font-size:12px;
           font-family:Microsoft YaHei;
           font-weight:400;
