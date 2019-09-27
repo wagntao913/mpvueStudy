@@ -30,22 +30,28 @@
         </div>
       </div>
       <div class="card-wrapper">
+        <div class="card-title" style="padding-bottom: 10px;">
+          <div style="color: #D00000;font-weight: bold;">消息</div>
+          <!-- <van-button round size="mini" @click="takeOut">提现</van-button> -->
+        </div>
+      </div>
+      <div class="card-wrapper">
         <div class="card-title">
           <div>交易数据</div>
-          <van-button round size="mini" @click="takeOut">提现</van-button>
+          <!-- <van-button round size="mini" @click="takeOut">提现</van-button> -->
         </div>
         <div class="card-divider"></div>
         <div class="card-content">
           <div class="business-data">
             <div class="business-data-left">
-              <p>今日销售额：<span style="color:red">¥3699</span></p>
+              <p>今日销售额：<span style="color:red">¥ {{ todaySale }}</span></p>
               <!-- <p>今日加购人数：12</p> -->
-              <p>三十天销售额：8752</p>
-              <p>七天销售金额：524.3</p>
+              <p>三十天销售额：{{ monthSale }}</p>
+              <p>七天销售金额：{{ sevenSale }}</p>
             </div>
             <div class="business-data-right">
               <p>可提现金额：<span style="color:red">¥1550.10</span></p>
-              <p>访客数：13</p>
+              <p>访客数：{{ visitors }}</p>
             </div>
           </div>
         </div>
@@ -104,7 +110,7 @@
 
 <script>
 // import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
-import { getStorageSync, showToast } from '../../api/wechat'
+import { getStorageSync, showToast, showLoading, hideLoading } from '../../api/wechat'
 import { getVisitor, getTodaySale, getSevenSale, get30Sale } from '../../api/index'
 import { createFly } from '../../utils/request'
 
@@ -116,24 +122,36 @@ export default {
   },
   data() {
     return {
-      providerInfo: {}
+      providerInfo: {},
+      providerId: '', // 商家ID
+      visitors: '', // 访客量
+      todaySale: '', // 今日销售额
+      sevenSale: '', // 七日销售额
+      monthSale: '' // 30天销售额
     }
   },
   mounted () {
-    this.init()
+    showLoading('正在加载...')
     this.providerInfo = getStorageSync('providerInfo') || {}
+    this.providerId = getStorageSync('providerId') || ''
+    this.init()
   },
   methods: {
     init() {
       const fly = createFly()
       fly.all([
-        getVisitor(),
-        getTodaySale(),
-        getSevenSale(),
+        getVisitor(this.providerId),
+        getTodaySale(this.providerId),
+        getSevenSale(this.providerId),
         // getWithdrawMoney(),
-        get30Sale()
+        get30Sale(this.providerId)
       ]).then(fly.spread((visitors, todaySale, sevenSale, monthSale) => {
         console.log(visitors.data, todaySale.data, sevenSale.data, monthSale.data)
+        this.visitors = visitors.data.data
+        this.todaySale = todaySale.data.data
+        this.sevenSale = sevenSale.data.data
+        this.monthSale = monthSale.data.data
+        hideLoading()
       })).catch((err) => {
         showToast(err)
       })

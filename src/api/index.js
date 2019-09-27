@@ -116,8 +116,8 @@ startTime (string, optional),
 status (integer, optional): 状态1待发货 2发货 3 签收(已提货) 4完成 6待提货 ,
 totalMoney (number, optional): 总金额
 */
-export function getOrderStatus(params) {
-  return post(`${BASE_URL}/api/business/order/getOrderStatus`, params)
+export function getOrderStatus(providerId, status, pageNum, pageSize, startTime, endTime) {
+  return post(`${BASE_URL}/api/business/order/getOrderStatus`, { providerId, status, pageNum, pageSize, startTime, endTime })
 }
 
 /* POST /api/business/finance/getWithdrawMoney
@@ -127,23 +127,23 @@ export function getWithdrawMoney(params) {
 }
 
 /* 查询近30天销售金额 */
-export function get30Sale(params) {
-  return post(`${BASE_URL}/api/business/act/get30Sale`, params)
+export function get30Sale(providerId) {
+  return post(`${BASE_URL}/api/business/act/get30Sale`, { providerId })
 }
 
 /* 查询近七天销售金额 */
-export function getSevenSale(params) {
-  return post(`${BASE_URL}/api/business/act/getSevenSale`, params)
+export function getSevenSale(providerId) {
+  return post(`${BASE_URL}/api/business/act/getSevenSale`, { providerId })
 }
 
 /* 查询今天销售金额 */
-export function getTodaySale(params) {
-  return post(`${BASE_URL}/api/business/act/getTodaySale`, params)
+export function getTodaySale(providerId) {
+  return post(`${BASE_URL}/api/business/act/getTodaySale`, { providerId })
 }
 
 /* 查询访客数量 */
-export function getVisitor(params) {
-  return post(`${BASE_URL}/api/business/act/getVisitor`, params)
+export function getVisitor(providerId) {
+  return post(`${BASE_URL}/api/business/act/getVisitor`, { providerId })
 }
 
 /* 商家显示有几条未读消息 */
