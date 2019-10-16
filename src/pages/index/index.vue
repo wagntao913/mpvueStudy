@@ -30,22 +30,52 @@
         </div>
       </div>
       <div class="card-wrapper">
+        <div class="notice-box" style="padding: 10px 10px 10px 10px;" @click="jumpPages('notice')">
+          <div style="color: #D00000;font-weight: bold;">消息:</div>
+          <!-- <van-button round size="mini" @click="takeOut">提现</van-button> -->
+          <div style="width: 80%;">
+            <swiper vertical autoplay circular duration="300">
+              <swiper-item>
+                <span style="font-size: 12px;">
+                  店铺有<span style="color: #D00000;font-weight: bold;"> {{ messageCount.type0Count }} </span>项库存预警通知，请查收！
+                </span>
+              </swiper-item>
+              <swiper-item>
+                <span style="font-size: 12px;">
+                  店铺有<span style="color: #D00000;font-weight: bold;"> {{ messageCount.type1Count }} </span>项活动通知，请查收！
+                </span>
+              </swiper-item>
+              <swiper-item>
+                <span style="font-size: 12px;">
+                  店铺有<span style="color: #D00000;font-weight: bold;"> {{ messageCount.type2Count }} </span>项违规提醒通知，请查收！
+                </span>
+              </swiper-item>
+              <swiper-item>
+                <span style="font-size: 12px;">
+                  店铺有<span style="color: #D00000;font-weight: bold;"> {{ messageCount.type3Count }} </span>项规则变更通知，请查收！
+                </span>
+              </swiper-item>
+            </swiper>
+          </div>
+        </div>
+      </div>
+      <div class="card-wrapper">
         <div class="card-title">
           <div>交易数据</div>
-          <van-button round size="mini" @click="takeOut">提现</van-button>
+          <!-- <van-button round size="mini" @click="takeOut">提现</van-button> -->
         </div>
         <div class="card-divider"></div>
         <div class="card-content">
           <div class="business-data">
             <div class="business-data-left">
-              <p>今日销售额：<span style="color:red">¥3699</span></p>
+              <p>今日销售额：<span style="color:red">¥ {{ todaySale }}</span></p>
               <!-- <p>今日加购人数：12</p> -->
-              <p>三十天销售额：8752</p>
-              <p>七天销售金额：524.3</p>
+              <p>三十天销售额：{{ monthSale }}</p>
+              <p>七天销售金额：{{ sevenSale }}</p>
             </div>
             <div class="business-data-right">
               <p>可提现金额：<span style="color:red">¥1550.10</span></p>
-              <p>访客数：13</p>
+              <p>访客数：{{ visitors }}</p>
             </div>
           </div>
         </div>
@@ -104,8 +134,8 @@
 
 <script>
 // import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
-import { getStorageSync, showToast } from '../../api/wechat'
-import { getVisitor, getTodaySale, getSevenSale, get30Sale } from '../../api/index'
+import { getStorageSync, showToast, showLoading, hideLoading } from '../../api/wechat'
+import { getVisitor, getTodaySale, getSevenSale, get30Sale, getIsReadList } from '../../api/index'
 import { createFly } from '../../utils/request'
 
 import imageView from '../../components/base/imageView'
@@ -116,25 +146,46 @@ export default {
   },
   data() {
     return {
-      providerInfo: {}
+      providerInfo: {},
+      providerId: '', // 商家ID
+      visitors: '', // 访客量
+      todaySale: '', // 今日销售额
+      sevenSale: '', // 七日销售额
+      monthSale: '', // 30天销售额
+      messageCount: { // 未读消息
+        type0Count: '',
+        type1Count: '',
+        type2Count: '',
+        type3Count: ''
+      }
     }
   },
   mounted () {
-    this.init()
+    showLoading('正在加载...')
     this.providerInfo = getStorageSync('providerInfo') || {}
+    this.providerId = getStorageSync('providerId') || ''
+    this.init()
   },
   methods: {
     init() {
       const fly = createFly()
       fly.all([
-        getVisitor(),
-        getTodaySale(),
-        getSevenSale(),
-        // getWithdrawMoney(),
-        get30Sale()
-      ]).then(fly.spread((visitors, todaySale, sevenSale, monthSale) => {
-        console.log(visitors.data, todaySale.data, sevenSale.data, monthSale.data)
+        getVisitor(this.providerId),
+        getTodaySale(this.providerId),
+        getSevenSale(this.providerId),
+        // getWithdrawMoney(this.providerId),
+        get30Sale(this.providerId),
+        getIsReadList(this.providerId)
+      ]).then(fly.spread((visitors, todaySale, sevenSale, monthSale, messageCount) => {
+        console.log(visitors.data, todaySale.data, sevenSale.data, monthSale.data, messageCount.data)
+        this.visitors = visitors.data.data
+        this.todaySale = todaySale.data.data
+        this.sevenSale = sevenSale.data.data
+        this.monthSale = monthSale.data.data
+        this.messageCount = messageCount.data.data
+        hideLoading()
       })).catch((err) => {
+        console.log(err)
         showToast(err)
       })
     },
@@ -212,6 +263,13 @@ export default {
       margin:8px 10px 0px 11px;
       background:rgba(255,255,255,1);
       border-radius:5px;
+      .notice-box{
+        height: 20px;
+        overflow: hidden;
+        padding: 14px 10px 0px 10px;
+        display: flex;
+        justify-content: space-between;
+      }
       .card-title{
         padding: 14px 10px 0px 10px;
         display: flex;
