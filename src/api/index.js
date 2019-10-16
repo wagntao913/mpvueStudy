@@ -42,8 +42,11 @@ providerId (integer, optional): 登录用户id ,
 verificationCode (string, optional): 验证码 ,
 withdrawPassword (string, optional): 提现密码
 */
-export function userResetPwd(params) {
-  return post(`${BASE_URL}/api/business/user/userResetPwd`, params)
+export function userResetPwd({ password, newPassword, providerId, openId }) {
+  return post(
+    `${BASE_URL}/api/business/user/userResetPwd`,
+    { password, newPassword, providerId, openId }
+  )
 }
 
 /* 设置提现密码
@@ -55,8 +58,11 @@ providerId (integer, optional): 登录用户id ,
 verificationCode (string, optional): 验证码 ,
 withdrawPassword (string, optional): 提现密码
 */
-export function withdrawPassword(params) {
-  return post(`${BASE_URL}/api/business/user/withdrawPassword`, params)
+export function withdrawPassword({ phone, verificationCode, withdrawPassword, providerId, openId }) {
+  return post(
+    `${BASE_URL}/api/business/user/withdrawPassword`,
+    { phone, verificationCode, withdrawPassword, providerId, openId }
+  )
 }
 
 /* 修改商家
@@ -74,8 +80,8 @@ providerId (integer, optional): 商家id ,
 updateTime (integer, optional): 修改时间 ,
 withdrawPassword (string, optional): 提现密码
 */
-export function updateUser(params) {
-  return post(`${BASE_URL}/api/business/user/updateUser`, params)
+export function updateUser({ icon, name, intro }) {
+  return post(`${BASE_URL}/api/business/user/updateUser`, { icon, name, intro })
 }
 
 /* 获取提现审核记录

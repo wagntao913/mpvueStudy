@@ -43,7 +43,7 @@
       ></field>
     </div>
     <div class="settings-btn">
-      <van-button round>提交</van-button>
+      <van-button round @click="submit">提交</van-button>
     </div>
   </div>
 </template>
@@ -52,6 +52,7 @@
 import field from '../../components/field.vue'
 import imageView from '../../components/base/imageView'
 import { getStorageSync } from '../../api/wechat'
+import { updateUser } from '../../api/index'
 
 export default {
   components: {
@@ -81,6 +82,18 @@ export default {
     // 跳转修改提现密码页面
     changeWithdrawPassword() {
       this.$router.push('/pages/changeWithdrawPassword/main')
+    },
+    submit() {
+      console.log('== updateUser ==')
+      let params = {
+        // icon: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ9ibEBPOr8oc5ibQAicWO3zbhvgg5VraEH3Z0h0eOjxic1lVqHYTKibC7pS6EqSUqHDLLWdofwJE895tQ/132',
+        icon: this.providerInfo.icon,
+        name: this.providerInfo.name,
+        intro: this.providerInfo.intro
+      }
+      updateUser(params).then(res => {
+        console.log(res)
+      })
     }
   }
 }

@@ -17,7 +17,7 @@
         placeholder="请输入验证码"
         keyWord="verificationCode"
         buttonText="发送验证码"
-        buttonWidth="60%"
+        buttonWidth="100%"
         @onButtonClick="getCode"
         @onChange="onChange"
       ></field>
@@ -27,7 +27,7 @@
         label="提现密码"
         placeholder="请输入提现密码"
         password
-        keyWord="newPassword"
+        keyWord="withdrawPassword"
         @onChange="onChange"
       ></field>
       <div class="tips">提现密码为纯数字</div>
@@ -40,7 +40,7 @@
 
 <script>
 import field from '../../components/field.vue'
-import { sendCode, forgetPassword } from '../../api/index'
+import { sendCode, withdrawPassword } from '../../api/index'
 import { showToast, getStorageSync } from '../../api/wechat'
 
 export default {
@@ -83,12 +83,21 @@ export default {
       } else if (!this.verificationCode) {
         showToast('请输入验证码！')
         return false
-      } else if (!this.newPassword) {
-        showToast('请输入新密码！')
+      } else if (!this.withdrawPassword) {
+        showToast('请输入提现密码！')
         return false
       }
       let openId = getStorageSync('openId')
-      forgetPassword(openId, this.phone, this.newPassword, this.verificationCode).then((res) => {
+      let providerId = getStorageSync('providerId')
+      // phone, verificationCode, withdrawPassword, providerId, openId
+      let params = {
+        phone: this.phone,
+        verificationCode: this.verificationCode,
+        withdrawPassword: this.withdrawPassword,
+        providerId: providerId,
+        openId: openId
+      }
+      withdrawPassword(params).then((res) => {
         console.log(res)
       })
     }
@@ -109,14 +118,14 @@ export default {
     border-radius:5px;
     .tips{
       color:#888888;
-      font-size: 11px;
+      font-size: 12px;
       margin:9px 15px 0px 15px;
     }
     .change-password-btn{
       text-align: center;
       margin-top: 24px;
       /deep/ .van-button--default{
-        background-color: #D000006;
+        background-color: #D00000;
         color: #fff;
         width: 130px;
       }
