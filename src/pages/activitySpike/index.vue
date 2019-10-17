@@ -83,7 +83,7 @@ export default {
     }
   },
   onShow() {
-    console.log(this.$route.query.type)
+    console.log(this.$route)
     this.pageType = this.$route.query.type
     if (this.pageType === 'spike') {
       setNavigationBarTitle('报名参加限时秒杀')

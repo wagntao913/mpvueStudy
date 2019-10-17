@@ -6,6 +6,8 @@ function formatNumber (n) {
 }
 
 export function formatTime (date) {
+  if (!date) return
+  date = new Date(date)
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()

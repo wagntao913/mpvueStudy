@@ -15,14 +15,24 @@
         <div class="coupon-total">发行100张，已领取521张</div>
       </div>
       <div class="coupon-del">
-        <van-button round plain hairline size="mini">删除</van-button>
+        <van-button round plain hairline size="mini" @click="onclick">删除</van-button>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-
+  props: {
+    couponInfo: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    onclick() {
+      this.$emit('deleteCoupon')
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

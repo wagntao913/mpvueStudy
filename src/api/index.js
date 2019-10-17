@@ -1,5 +1,5 @@
-// import { post, get } from '../utils/request'
-import { post } from '../utils/request'
+import { post, get } from '../utils/request'
+// import { post } from '../utils/request'
 const BASE_URL = 'http://col.gsgouma.com'
 
 /* 小程序登录授权管理 */
@@ -173,8 +173,8 @@ export function udpateMessage(params) {
 }
 
 /* 查询商家上架商品列表 */
-export function getListGoods(params) {
-  return post(`${BASE_URL}/api/business/act/getListGoods`, params)
+export function getListGoods({id, psgeNum, pageSize}) {
+  return post(`${BASE_URL}/api/business/act/getListGoods`, {id, psgeNum, pageSize})
 }
 
 /* 商家新增活动 */
@@ -197,12 +197,42 @@ export function getListPresellEnd(params) {
   return post(`${BASE_URL}/api/business/act/getListPresellEnd`, params)
 }
 
-/* 商家新增优惠卷调用（https://m.gsgouma.com/back/order/coupon/addCoupon.json） */
-export function addCoupon(params) {
-  return post(`${BASE_URL}/api/business/coupon/addCoupon`, params)
+/* 商家新增优惠卷调用（https://m.gsgouma.com/back/order/coupon/addCoupon.json）
+addTime (integer, optional): 新增时间 ,
+couponName (string, optional): 优惠卷名称 ,
+couponPrice (number, optional): 优惠金额 ,
+endTime (string, optional): 结束时间 ,
+explain (string, optional): 优惠卷说明 ,
+id (integer, optional): 主键id ,
+indateStatus (integer, optional): 有效期类型 1开始时间 结束时间 2设置有效天数 ,
+isProscenium (integer, optional): 是否前台展示 1是 0否 ,
+prefix (string, optional): 前缀只限英文字母2-3 ,
+products (string, optional): 选择的商品id ,
+providers (string, optional): 商家id ,
+quantity (integer, optional): 发放数量 ,
+startTime (string, optional): 开始时间 ,
+type (integer, optional): 优化卷 类型 平台传1 商铺传 2 ,
+updateTime (integer, optional): 修改时间 ,
+usePrice (number, optional): 使用门槛 */
+export function addCoupon({ couponName, type, isProscenium, indateStatus, prefix, explain, providers, startTime, endTime, products, couponPrice, usePrice, quantity, dayCount }) {
+  return get('https://m.gsgouma.com/back/order/coupon/addCoupon.json', { couponName, type, isProscenium, indateStatus, prefix, explain, providers, startTime, endTime, couponPrice, usePrice, quantity, products, dayCount })
+  // return post(`${BASE_URL}/api/business/coupon/addCoupon`, params)
 }
 
 /* 商家优惠卷查询调用（https://m.gsgouma.com/back/order/coupon/couponPage.json） */
 export function getCouponList(params) {
-  return post(`${BASE_URL}/api/business/coupon/getCouponList`, params)
+  return get('https://m.gsgouma.com/back/order/coupon/couponPage.json', params)
+}
+/**
+ * POST /api/business/coupon/getCouponPriceList
+商家优惠卷金额查询
+ */
+export function getCouponPriceList(params) {
+  return post(`${BASE_URL}/api/business/coupon/getCouponPriceList`, params)
+}
+/**
+ * http://192.168.2.104:8084/order/coupon/endCoupon.json?status=0&couponId
+ */
+export function endCoupon(params) {
+  return get('https://m.gsgouma.com/back/order/coupon/endCoupon.json', params)
 }

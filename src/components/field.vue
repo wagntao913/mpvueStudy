@@ -47,21 +47,23 @@
     <div v-if="showButton" class="right-extra" :style="{width: buttonWidth}">
       <van-button square type="default" @click="onClick">{{ buttonText }}</van-button>
     </div>
-    <div  v-if="showAvatar" class="right-extra" style="width: 10% ">
+    <!-- 右侧头像 -->
+    <div  v-if="showAvatar" class="right-extra" style="width: 10% " @click="onAvatarClick">
       <image-view :src="avatarUrl" round width="30px"></image-view>
     </div>
+    <!-- 右侧单位 -->
+    <div v-if="rightUnit" class="right-extra">
+      <span>{{ rightUnit }}</span>
+    </div>
     <!-- 右侧图标 -->
-    <div v-if="rightIcon">
+    <div v-if="rightIcon" @click="onIconClick">
       <van-icon
         class="search"
         :name="rightIcon"
-        size="18px"
-        color="#858C96"
+        :size="size"
+        :color="color"
       ></van-icon>
     </div>
-    <!-- <div :left-icon="rightIcon" v-if="rightIcon">
-      <i :class="right_icon_classes"></i>
-    </div> -->
   </div>
 </template>
 <script>
@@ -92,13 +94,21 @@ export default {
       type: String,
       default: ''
     },
+    size: {
+      type: String,
+      default: '18px'
+    },
+    color: {
+      type: String,
+      default: '#858C96'
+    },
     inputType: {// 录入框类型
       type: String,
       default: 'text'
     },
     labelWidth: {// 标签宽度
       type: String,
-      default: '0'
+      default: ''
     },
     inputWidth: {// 录入框宽度
       type: String,
@@ -139,6 +149,10 @@ export default {
     buttonText: { // 按钮文本
       type: String,
       default: ''
+    },
+    rightUnit: { // 右侧单位
+      type: String,
+      default: false
     },
     showAvatar: { // 右侧展示头像
       type: Boolean,
@@ -205,6 +219,14 @@ export default {
     onClick() {
       console.log('== click ==')
       this.$emit('onButtonClick')
+    },
+    onIconClick() {
+      console.log('== click ==')
+      this.$emit('onIconClick')
+    },
+    onAvatarClick() {
+      console.log('== click ==')
+      this.$emit('onAvatarClick')
     },
     setValue(v) {
       this.inputValue = v

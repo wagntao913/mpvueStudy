@@ -73,6 +73,7 @@ export default {
   },
   methods: {
     jumpTo(type) {
+      console.log(type)
       this.$router.push({
         path: '/pages/activitySpike/main',
         query: { type: type }
