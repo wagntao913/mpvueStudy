@@ -80,8 +80,8 @@ providerId (integer, optional): 商家id ,
 updateTime (integer, optional): 修改时间 ,
 withdrawPassword (string, optional): 提现密码
 */
-export function updateUser({ icon, name, intro }) {
-  return post(`${BASE_URL}/api/business/user/updateUser`, { icon, name, intro })
+export function updateUser(params) {
+  return post(`${BASE_URL}/api/business/user/updateUser`, params)
 }
 
 /* 获取提现审核记录
@@ -98,6 +98,22 @@ withdrawMoney (number, optional): 提现金额
 export function getListFinance(providerId, pageSize, pageNum, reviewProgress) {
   return post(`${BASE_URL}/api/business/finance/getListFinance`, { providerId, pageSize, pageNum, reviewProgress })
 }
+
+/** 商家提交提现审核
+addTime (integer, optional): 新增时间 ,
+auditOpinion (string, optional): 审核意见 ,
+id (integer, optional): 主键id ,
+pageNum (integer, optional),
+pageSize (integer, optional),
+providerId (integer, optional): 供应商id ,
+reviewProgress (integer, optional): 审核进度 0审核中 1审核通过 2审核未通过 3转账 ,
+updateTime (integer, optional): 修改时间 ,
+withdrawMoney (number, optional): 提现金额
+ */
+export function addWithdrawMoney({ providerId, withdrawMoney }) {
+  return post(`${BASE_URL}/api/business/finance/addWithdrawMoney`, { providerId, withdrawMoney })
+}
+
 /* 商家不同状态订单查询
 cardMoney (number, optional): 优惠卷金额 ,
 consignee (string, optional): consignee ,
@@ -122,7 +138,7 @@ startTime (string, optional),
 status (integer, optional): 状态1待发货 2发货 3 签收(已提货) 4完成 6待提货 ,
 totalMoney (number, optional): 总金额
 */
-export function getOrderStatus(providerId, status, pageNum, pageSize, startTime, endTime) {
+export function getOrderStatus({ providerId, status, pageNum, pageSize, startTime, endTime }) {
   return post(`${BASE_URL}/api/business/order/getOrderStatus`, { providerId, status, pageNum, pageSize, startTime, endTime })
 }
 
@@ -158,11 +174,16 @@ export function getIsReadList(providerId) {
 }
 
 /* 查看消息列表 */
-export function getMessqgeList(params) {
-  return post(`${BASE_URL}/api/business/message/getMessqgeList`, params)
+export function getMessqgeList(providerId) {
+  return post(`${BASE_URL}/api/business/message/getMessqgeList`, { providerId })
 }
 
-/* 商家读取某条消息(查看详情，并修改此用户此消息的状态) */
+/* 商家读取某条消息(查看详情，并修改此用户此消息的状态){
+  "id": 0,
+  "msgType": 0,
+  "providerId": 0,
+  "readUserId": "string"
+} */
 export function getReadMessage(params) {
   return post(`${BASE_URL}/api/business/message/getReadMessage`, params)
 }
@@ -173,11 +194,23 @@ export function udpateMessage(params) {
 }
 
 /* 查询商家上架商品列表 */
-export function getListGoods({id, psgeNum, pageSize}) {
-  return post(`${BASE_URL}/api/business/act/getListGoods`, {id, psgeNum, pageSize})
+export function getListGoods({id, pageNum, pageSize}) {
+  return post(`${BASE_URL}/api/business/act/getListGoods`, {id, pageNum, pageSize})
 }
-
-/* 商家新增活动 */
+/* 商家新增活动
+actCount (integer, optional): 商品参加活动的数量 ,
+addTime (integer, optional): 新增时间 ,
+commodtiyPrice (number, optional): 商品原价 ,
+id (integer, optional): 主键id ,
+isCheck (integer, optional): 是否审核 0审核中 1审核通过 2审核未通过 ,
+pageNum (integer, optional),
+pageSize (integer, optional),
+phone (string, optional): 联系电话 ,
+productId (integer, optional): 商品id ,
+providerId (integer, optional): 商家id ,
+seckillPrice (number, optional): 秒杀价格 ,
+type (integer, optional): 活动类型 0预售 1秒杀 ,
+updateTime (integer, optional): 修改时间 */
 export function addActivity(params) {
   return post(`${BASE_URL}/api/business/act/addActivity`, params)
 }

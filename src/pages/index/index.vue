@@ -32,7 +32,6 @@
       <div class="card-wrapper">
         <div class="notice-box" style="padding: 10px 10px 10px 10px;" @click="jumpPages('notice')">
           <div style="color: #D00000;font-weight: bold;">消息:</div>
-          <!-- <van-button round size="mini" @click="takeOut">提现</van-button> -->
           <div style="width: 80%;">
             <swiper vertical autoplay circular duration="300">
               <swiper-item>
@@ -62,7 +61,7 @@
       <div class="card-wrapper">
         <div class="card-title">
           <div>交易数据</div>
-          <!-- <van-button round size="mini" @click="takeOut">提现</van-button> -->
+          <van-button round size="mini" @click="takeOut">提现</van-button>
         </div>
         <div class="card-divider"></div>
         <div class="card-content">
@@ -74,7 +73,7 @@
               <p>七天销售金额：{{ sevenSale }}</p>
             </div>
             <div class="business-data-right">
-              <p>可提现金额：<span style="color:red">¥1550.10</span></p>
+              <p>可提现金额：<span style="color:red">¥ {{ money }}</span></p>
               <p>访客数：{{ visitors }}</p>
             </div>
           </div>
@@ -99,7 +98,7 @@
               <i class="iconfont .icon-tuikuan order-item-icon"></i>
               <p class="order-item-title">待售后订单</p>
             </div>
-            <div class="order-item" @click="jumpPages('afterSale')">
+            <div class="order-item" @click="jumpPages('afterSale',9)">
               <i class="iconfont icon-shangpin order-item-icon" style="font-size: 20px;"></i>
               <p class="order-item-title">已售出订单</p>
             </div>
@@ -135,7 +134,7 @@
 <script>
 // import { getSetting, getUserInfo, setStorageSync, getStorageSync, showToast, showLoading, hideLoading, getUserOpenId } from '../../api/wechat'
 import { getStorageSync, showToast, showLoading, hideLoading } from '../../api/wechat'
-import { getVisitor, getTodaySale, getSevenSale, get30Sale, getIsReadList } from '../../api/index'
+import { getVisitor, getTodaySale, getSevenSale, get30Sale, getWithdrawMoney, getIsReadList } from '../../api/index'
 import { createFly } from '../../utils/request'
 
 import imageView from '../../components/base/imageView'
@@ -152,6 +151,7 @@ export default {
       todaySale: '', // 今日销售额
       sevenSale: '', // 七日销售额
       monthSale: '', // 30天销售额
+      money: '', // 可提现金额
       messageCount: { // 未读消息
         type0Count: '',
         type1Count: '',
@@ -160,7 +160,7 @@ export default {
       }
     }
   },
-  mounted () {
+  onShow () {
     showLoading('正在加载...')
     this.providerInfo = getStorageSync('providerInfo') || {}
     this.providerId = getStorageSync('providerId') || ''
@@ -173,16 +173,17 @@ export default {
         getVisitor(this.providerId),
         getTodaySale(this.providerId),
         getSevenSale(this.providerId),
-        // getWithdrawMoney(this.providerId),
+        getWithdrawMoney(this.providerId),
         get30Sale(this.providerId),
         getIsReadList(this.providerId)
-      ]).then(fly.spread((visitors, todaySale, sevenSale, monthSale, messageCount) => {
-        console.log(visitors.data, todaySale.data, sevenSale.data, monthSale.data, messageCount.data)
+      ]).then(fly.spread((visitors, todaySale, sevenSale, money, monthSale, messageCount) => {
+        console.log(visitors.data, todaySale.data, sevenSale.data, money.data, monthSale.data, messageCount.data)
         this.visitors = visitors.data.data
         this.todaySale = todaySale.data.data
         this.sevenSale = sevenSale.data.data
         this.monthSale = monthSale.data.data
         this.messageCount = messageCount.data.data
+        this.money = money.data.data
         hideLoading()
       })).catch((err) => {
         console.log(err)
@@ -203,10 +204,15 @@ export default {
       if (!active) {
         this.$router.push('/pages/' + type + '/main')
       } else {
-        this.$router.push({
-          path: '/pages/' + type + '/main',
-          query: { active: active }
-        })
+        if (active === 3 || active === 9) {
+          showToast('页面开发中...')
+          return false
+        } else {
+          this.$router.push({
+            path: '/pages/' + type + '/main',
+            query: { active: active }
+          })
+        }
       }
     }
   }

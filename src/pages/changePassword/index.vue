@@ -38,7 +38,7 @@
 import field from '../../components/field.vue'
 import { userResetPwd } from '../../api/index'
 import { showToast, getStorageSync } from '../../api/wechat'
-
+import { passwordChange } from '../../utils/index'
 export default {
   components: {
     field
@@ -82,6 +82,8 @@ export default {
       }
       let openId = getStorageSync('openId')
       let providerId = getStorageSync('providerId')
+      this.newPassword = passwordChange(this.newPassword)
+      this.password = passwordChange(this.password)
       // phone, verificationCode, withdrawPassword, providerId, openId
       let params = {
         password: this.password,

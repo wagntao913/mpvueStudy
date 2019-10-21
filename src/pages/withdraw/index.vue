@@ -10,6 +10,7 @@
       <div class="withdraw-content">
         <div class="unit">¥</div>
         <input
+          v-model="withdrawMoney "
           class="withdraw-input"
           placeholder-style="font-size:13px;"
           type="digit"
@@ -18,18 +19,43 @@
       </div>
       <div class="divider"></div>
       <div class="tips">
-        当前账户可提现余额5550元
+        当前账户可提现余额 {{ totalWithdrawMoney }} 元
       </div>
       <div class="withdraw-btn">
-        <van-button round>提现</van-button>
+        <van-button round @click="handleWithdrawMoney">提现</van-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { addWithdrawMoney, getWithdrawMoney } from '../../api/index'
+import { getStorageSync } from '../../api/wechat'
 export default {
-
+  data() {
+    return {
+      withdrawMoney: '',
+      totalWithdrawMoney: '',
+      providerId: ''
+    }
+  },
+  onShow() {
+    this.providerId = getStorageSync('providerId')
+    getWithdrawMoney(this.providerId).then(res => {
+      if (res.data.code === '000000') {
+        this.totalWithdrawMoney = res.data.data
+      }
+    })
+  },
+  methods: {
+    handleWithdrawMoney() {
+      addWithdrawMoney({
+        providerId: this.providerId
+      }).then(res => {
+        console.log(res)
+      })
+    }
+  }
 }
 </script>
 

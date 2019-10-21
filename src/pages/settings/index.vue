@@ -2,12 +2,14 @@
   <div class="settings-main">
     <div class="settings-wrapper">
       <field
+        ref="avatar"
         disabled
         showAvatar
         labelWidth="20%"
         label="商户头像"
         :avatarUrl ="providerInfo.icon"
         rightIcon="arrow"
+        @onAvatarClick="changeAvatar"
       ></field>
       <field
         labelWidth="20%"
@@ -51,8 +53,9 @@
 <script>
 import field from '../../components/field.vue'
 import imageView from '../../components/base/imageView'
-import { getStorageSync } from '../../api/wechat'
+import { getStorageSync, setStorageSync, showLoading, hideLoading } from '../../api/wechat'
 import { updateUser } from '../../api/index'
+import { showToast } from '../../utils'
 
 export default {
   components: {
@@ -75,6 +78,41 @@ export default {
       // console.log(keyword, value)
       this.providerInfo[keyword] = value
     },
+    // 切换头像
+    changeAvatar() {
+      const vm = this
+      mpvue.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: (res) => {
+          console.log(res.tempFilePaths[0])
+          let filePath = res.tempFilePaths[0]
+          showLoading('正在上传头像中...')
+          if (res.tempFilePaths[0]) {
+            mpvue.uploadFile({
+              url: 'http://col.gsgouma.com/back/business/upload/uploadFile', // 接口地址
+              filePath: filePath,
+              name: 'file',
+              success: function(res) {
+                console.log(res.data.code)
+                let msg = JSON.parse(res.data)
+                if (msg.code === '000000') {
+                  vm.providerInfo.icon = msg.data
+                  setStorageSync('providerInfo', vm.providerInfo)
+                  hideLoading()
+                }
+              },
+              fail: function(res) {
+                console.log(res)
+                showToast(res.data.message)
+                hideLoading()
+              }
+            })
+          }
+        }
+      })
+    },
     // 跳转密码修改页面
     changePassword () {
       this.$router.push('/pages/changePassword/main')
@@ -84,15 +122,20 @@ export default {
       this.$router.push('/pages/changeWithdrawPassword/main')
     },
     submit() {
+      showLoading()
       console.log('== updateUser ==')
-      let params = {
-        // icon: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ9ibEBPOr8oc5ibQAicWO3zbhvgg5VraEH3Z0h0eOjxic1lVqHYTKibC7pS6EqSUqHDLLWdofwJE895tQ/132',
-        icon: this.providerInfo.icon,
-        name: this.providerInfo.name,
-        intro: this.providerInfo.intro
-      }
-      updateUser(params).then(res => {
+      // let params = {
+      //   // icon: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ9ibEBPOr8oc5ibQAicWO3zbhvgg5VraEH3Z0h0eOjxic1lVqHYTKibC7pS6EqSUqHDLLWdofwJE895tQ/132',
+      //   icon: this.providerInfo.icon,
+      //   name: this.providerInfo.name,
+      //   intro: this.providerInfo.intro
+      // }
+      updateUser(this.providerInfo).then(res => {
         console.log(res)
+        hideLoading()
+        if (res.data.code === '000000') {
+          setStorageSync('providerInfo', this.providerInfo)
+        }
       })
     }
   }

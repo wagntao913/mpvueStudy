@@ -15,6 +15,7 @@
     "pages/afterSale/main",
     "pages/activity/main",
     "pages/activitySpike/main",
+    "pages/activityPresale/main",
     "pages/withdrawalsRecord/main",
     "pages/changeWithdrawPassword/main"
   ],
@@ -37,6 +38,7 @@
     "van-tabs": "vant-weapp/dist/tabs/index",
     "van-checkbox": "vant-weapp/dist/checkbox/index",
     "van-notice-bar": "vant-weapp/dist/notice-bar/index",
-    "van-tag": "vant-weapp/dist/tag/index"
+    "van-tag": "vant-weapp/dist/tag/index",
+    "van-dialog": "vant-weapp/dist/dialog/index"
   }
 }

@@ -86,9 +86,9 @@
       <van-button round @click="submit">提交</van-button>
     </div>
     <!-- 商品选择弹出框 -->
-    <van-popup :show="showPopup" position="right" custom-style="width: 80%;">
+    <van-popup :show="showPopup" position="right" custom-style="width: 80%;height:100%">
       <div style="height: 100%;" class="goods-modal">
-        <scroll-view>
+        <scroll-view @scrolltolower="bindscrolltolower" scroll-y style="height: 96%;">
           <checkbox-group @change="checkGroupChange">
             <checkbox
               style="border-bottom: 1px solid #eee;margin-left:3px;"
@@ -108,10 +108,12 @@
                     {{ item.productName }}
                   </div>
                   <div class="item-info">
-                    <div style="color:#d00000;">￥{{ item.price }}</div>
+                    <div style="color:#d00000;">
+                      <div>￥{{ item.price }}</div>
+                    </div>
                     <div>
-                      <div>销量：1052</div>
-                      <div>库存：2152</div>
+                      <div>销量：{{ item.salesCout }}</div>
+                      <div>库存：{{ item.quantity }}</div>
                     </div>
                   </div>
                 </div>
@@ -151,37 +153,56 @@ export default {
       providerId: '',
       selectTotal: '',
       pageNum: 1,
-      pageSize: 8
+      pageSize: 10,
+      total: 1
     }
   },
-  onShow() {
+  mounted() {
     this.providerId = getStorageSync('providerId')
+    // 获取下拉选数据
     getCouponPriceList({}).then(res => {
       console.log(res)
       if (res.data.code === '000000') {
         this.selectList = res.data.data
       }
     })
-    getListGoods({
-      id: this.providerId,
-      pageNum: 1,
-      pageSize: 8
-    }).then(res => {
-      console.log(res)
-      if (res.data.code === '000000') {
-        this.goodsList = res.data.data.list
-      }
-    })
+    // 初始化商品数据
+    this.pageNum = 1
+    this.getGoods(this.pageNum)
   },
   methods: {
-
     onChange(keyword, value) {
       // console.log(keyword, value)
       this.popupInfo[keyword] = value
     },
+    // 获取商品数据
+    getGoods(pageNum) {
+      getListGoods({
+        id: this.providerId,
+        pageNum: pageNum,
+        pageSize: this.pageSize
+      }).then(res => {
+        console.log(res)
+        if (res.data.code === '000000') {
+          let recMsg = res.data.data.goodsDetailEntities
+          this.goodsList.push(...recMsg)
+          this.total = res.data.data.total
+        }
+      })
+    },
     // 展示商品选择弹框
     selectGoods () {
       this.showPopup = true
+    },
+    bindscrolltolower() {
+      console.log('sssss')
+      this.pageNum++
+      let pages = Math.ceil(this.total / this.pageSize)
+      if (this.pageNum < pages || this.pageNum === pages) {
+        this.getGoods(this.pageNum)
+      } else {
+        showToast('没有更多商品了')
+      }
     },
     checkGroupChange(e) {
       console.log('groupChange', e.mp.detail.value)
@@ -288,12 +309,15 @@ export default {
     }
   }
   .goods-modal{
+    height: 100%;
+    min-height: 375px;
+    background: #fff;
     .item-box{
       display: flex;
       justify-content: space-between;
       align-items: center;
       height: 76px;
-      padding: 5px;
+      padding: 8px;
       .item-img{
         width: 20%;
       }
@@ -306,6 +330,7 @@ export default {
           justify-content: space-between;
           align-items: center;
           font-size:12px;
+          padding: 0 5px;
         }
       }
     }
@@ -315,7 +340,10 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       /deep/ .van-button--default{
         background-color: #D00000;
         width: 100%;
@@ -324,7 +352,7 @@ export default {
     }
   }
   /deep/ .van-popup{
-    overflow: scroll;
+    overflow: hidden;
   }
 }
 </style>

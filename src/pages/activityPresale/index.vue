@@ -131,7 +131,7 @@ export default {
   },
   data() {
     return {
-      pageType: 'spike',
+      pageType: 'presale',
       phone: '',
       commodtiyPrice: '',
       providerId: '',
@@ -217,13 +217,13 @@ export default {
       }
       let params = {
         phone: this.phone,
-        type: 1,
+        type: 0,
         providerId: this.providerId,
         seckillPrice: this.seckillPrice,
         productId: this.productId,
         commodtiyPrice: this.commodtiyPrice,
         actCount: this.actCount,
-        isCheck: 1,
+        isCheck: 0,
         addTime: new Date().getTime()
       }
       console.log(params)

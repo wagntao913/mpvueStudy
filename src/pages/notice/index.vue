@@ -1,34 +1,128 @@
 <template>
   <div class="notice-main">
-    <div class="inventory-warning">
-      <div class="warning-title">
+    <div class="notice-box">
+      <div class="box-title">
         库存预警
       </div>
-      <div class="warning-card">
+      <div class="notice-card" @click="showdetail(0)" v-for="(item,index) in messageTpye0" :key="index">
         <div class="notice-icon"></div>
-        <div class="warning-card-title">
+        <div class="notice-card-title">
           <span>天香情 新疆红枣 500g/袋</span>
         </div>
-        <div class="warning-card-content">
+        <div class="notice-card-content">
           <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
         </div>
-        <div class="warning-card-from">
+        <div class="notice-card-from">
           <span>来自购马精选</span>
           <span>19.08.17</span>
         </div>
       </div>
     </div>
-    <div class="activity-reminder">
-      <div class="reminder-title">
+    <div class="notice-box">
+      <div class="box-title">
         活动提醒
+      </div>
+      <div class="notice-card" @click="showdetail(1)" v-for="(item,index) in messageTpye1" :key="index">
+        <div class="notice-icon"></div>
+        <div class="notice-card-title">
+          <span>天香情 新疆红枣 500g/袋</span>
+        </div>
+        <div class="notice-card-content">
+          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+        </div>
+        <div class="notice-card-from">
+          <span>来自购马精选</span>
+          <span>19.08.17</span>
+        </div>
+      </div>
+    </div>
+    <div class="notice-box">
+      <div class="box-title">
+        违规提醒
+      </div>
+      <div class="notice-card" @click="showdetail(2)" v-for="(item,index) in messageTpye2" :key="index">
+        <div class="notice-icon"></div>
+        <div class="notice-card-title">
+          <span>天香情 新疆红枣 500g/袋</span>
+        </div>
+        <div class="notice-card-content">
+          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+        </div>
+        <div class="notice-card-from">
+          <span>来自购马精选</span>
+          <span>19.08.17</span>
+        </div>
+      </div>
+    </div>
+    <div class="notice-box">
+      <div class="box-title">
+        规则变更提醒
+      </div>
+      <div class="notice-card"  @click="showdetail(3)" v-for="(item,index) in messageTpye3" :key="index">
+        <div class="notice-icon"></div>
+        <div class="notice-card-title">
+          <span>天香情 新疆红枣 500g/袋</span>
+        </div>
+        <div class="notice-card-content">
+          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+        </div>
+        <div class="notice-card-from">
+          <span>来自购马精选</span>
+          <span>19.08.17</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getMessqgeList } from '../../api/index'
+import { getStorageSync } from '../../api/wechat'
 export default {
-
+  data() {
+    return {
+      providerId: '',
+      messageTpye0: [],
+      messageTpye1: [],
+      messageTpye2: [],
+      messageTpye3: []
+    }
+  },
+  onShow() {
+    this.providerId = getStorageSync('providerId')
+    this.messageList()
+  },
+  methods: {
+    messageList() {
+      getMessqgeList(this.providerId).then(res => {
+        console.log(res)
+        if (res.data.code === '000000') {
+          let recMsg = res.data.data
+          recMsg.forEach(el => {
+            if (el.type === 0) {
+              this.messageTpye0 = el.messageEntityList
+            } else if (el.type === 1) {
+              this.messageTpye1 = el.messageEntityList
+            } else if (el.type === 2) {
+              this.messageTpye2 = el.messageEntityList
+            } else if (el.type === 3) {
+              this.messageTpye3 = el.messageEntityList
+            }
+          })
+        }
+      })
+    },
+    // 查看详情
+    showdetail(type) {
+      console.log('== showDetail ==')
+      this.$router.push({
+        path: '/pages/noticeDetail/main',
+        query: {
+          type: type
+        }
+      })
+    }
+  }
 }
 </script>
 
@@ -37,16 +131,16 @@ export default {
   box-sizing: border-box;
   margin: 10px 11px;
   // padding: 20px 0;
-  .inventory-warning {
+  .notice-box {
     background: #fff;
     margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px;
-    .warning-title{
+    .box-title{
       font-size: 15px;
       font-weight: 700;
     }
-    .warning-card{
+    .notice-card{
       background: #F3F3F3;
       padding: 11px;
       margin-top: 10px;
@@ -60,18 +154,18 @@ export default {
         right: 0;
         top: 0;
       }
-      .warning-card-title{
+      .notice-card-title{
         font-size: 14px;
         font-weight: 600;
         color: #222222;
         margin-bottom: 8px;
       }
-      .warning-card-content{
+      .notice-card-content{
         font-size: 12px;
         color:#222222;
         margin-bottom: 5px;
       }
-      .warning-card-from{
+      .notice-card-from{
         font-size: 12px;
         color: #888888;
         display: flex;

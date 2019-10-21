@@ -42,6 +42,7 @@
 import field from '../../components/field.vue'
 import { sendCode, forgetPassword } from '../../api/index'
 import { showToast, getStorageSync } from '../../api/wechat'
+import { passwordChange } from '../../utils/index'
 
 export default {
   components: {
@@ -67,7 +68,7 @@ export default {
         showToast('请输入正确的手机号!')
         return false
       } else {
-        sendCode(this.phone).then(res => {
+        sendCode(this.phone, '忘记密码验证码').then(res => {
           console.log(res)
         })
       }
@@ -87,8 +88,9 @@ export default {
         showToast('请输入新密码！')
         return false
       }
+      this.newPassword = passwordChange(this.newPassword)
       let openId = getStorageSync('openId')
-      forgetPassword(openId, this.phone, this.newPassword, this.verificationCode).then((res) => {
+      forgetPassword(this.verificationCode, this.phone, this.newPassword, openId).then((res) => {
         console.log(res)
       })
     }

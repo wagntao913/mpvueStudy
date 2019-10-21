@@ -40,14 +40,17 @@ export default {
         (userInfo) => {
           setStorageSync('userInfo', userInfo.userInfo)
           const openId = getStorageSync('openId')
+          let providerId = getStorageSync('providerId')
           if (!openId || openId.length === 0) {
             getUserOpenId(userInfo.iv, userInfo.encryptedData, (openId) => {
               vm.$router.push('/pages/login/main')
             })
             hideLoading()
+          } else if (openId && !providerId) {
+            vm.$router.push('/pages/login/main')
+            hideLoading()
           } else {
             vm.$router.push('/pages/index/main')
-            // hideLoading()
           }
         },
         (res) => {

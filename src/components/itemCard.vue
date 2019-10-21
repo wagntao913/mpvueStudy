@@ -1,45 +1,45 @@
 <template>
   <div class="item-card-main">
     <div class="card-title">
-      <div v-if="orderNo" class="tips">订单编号： {{ orderNo }}</div>
-      <div v-if="status" :style="{color:statusColor}">{{ status }}</div>
+      <div v-if="orderList.orderId" class="tips">订单编号： {{ orderList.orderId }}</div>
+      <div v-if="orderList.status" :style="{color:statusColor}">{{ orderList.status }}</div>
     </div>
     <div class="card-divider"></div>
     <div class="card-content">
       <div class="item-image">
         <image-view
-          src="/static/images/avatar.jpg"
+          :src="orderList.url"
           width="50px"
         ></image-view>
       </div>
       <div class="item-description">
         <div class="title">
-          新疆哈密瓜 西州蜜瓜 水果新鲜一箱现季带箱10斤
+          {{ orderList.productName  }}
         </div>
         <div class="weight">
-          5000g
+          {{ orderList.weight }}
         </div>
       </div>
       <div class="item-price">
         <div class="price">
-          ¥29.8
+          ¥ {{ orderList.price }}
         </div>
         <div class="amount">
-          x1
+          x {{ orderList.quantity }}
         </div>
       </div>
     </div>
     <div class="card-divider"></div>
     <div class="customer-info">
       <div class="customer-msg">
-        张三 152****8463
+        {{ orderList.consignee }} {{ orderList.consigneeMobile  }}
       </div>
       <div class="buyDate">
-        2019.07.16 09:00:06
+        {{ orderList.date }}
       </div>
     </div>
     <div class="total">
-      <div>共1件 合计<i style="color: #D00000;display: inline-block;">29.80</i></div>
+      <div>共{{ orderList.quantity }}件 合计<i style="color: #D00000;display: inline-block;">{{ orderList.totalMoney  }}</i></div>
     </div>
   </div>
 </template>
@@ -51,9 +51,9 @@ export default {
     imageView
   },
   props: {
-    orderNo: {
-      type: String,
-      default: ''
+    orderList: {
+      type: Object,
+      default: () => {}
     },
     status: {
       type: String,

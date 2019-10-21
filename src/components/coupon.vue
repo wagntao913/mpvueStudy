@@ -2,20 +2,22 @@
   <div class="coupon-main">
     <div class="coupon-left">
       <div class="coupon-amount">
-        ￥10
+        ￥{{couponInfo.couponPrice}}
       </div>
       <div class="coupon-condition">
-        满150元可用
+        满{{couponInfo.usePrice}}元可用
       </div>
     </div>
     <div class="coupon-right">
       <div class="coupon-description">
-        <div class="coupon-range">(活动商品除外)</div>
-        <div class="coupon-data">2019.06.24 - 2019.0708</div>
-        <div class="coupon-total">发行100张，已领取521张</div>
+        <div class="coupon-range">{{couponInfo.couponName}}</div>
+        <div class="coupon-data">{{couponInfo.startTime}} - {{couponInfo.endTime}}</div>
+        <div class="coupon-total">发行
+          {{couponInfo.quantity}}张，已领取{{couponInfo.drawQuantity}}张
+        </div>
       </div>
       <div class="coupon-del">
-        <van-button round plain hairline size="mini" @click="onclick">删除</van-button>
+        <van-button round plain hairline size="mini" @click="onclick(couponInfo.id)">删除</van-button>
       </div>
     </div>
   </div>
@@ -29,8 +31,8 @@ export default {
     }
   },
   methods: {
-    onclick() {
-      this.$emit('deleteCoupon')
+    onclick(id) {
+      this.$emit('deleteCoupon', id)
     }
   }
 }
