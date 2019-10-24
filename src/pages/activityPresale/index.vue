@@ -77,7 +77,7 @@
      <!-- 商品选择弹出框 -->
     <van-popup :show="showPopup" position="right" custom-style="width: 80%;height: 100%;">
       <div style="height: 100%;" class="goods-modal">
-        <scroll-view>
+        <scroll-view @scrolltolower="bindscrolltolower" scroll-y style="height: 96%;">
           <radio-group @change="checkGroupChange">
             <radio
               style="border-bottom: 1px solid #eee;margin-left:3px;"
@@ -140,10 +140,13 @@ export default {
       actCount: '',
       isRead: false,
       showPopup: false,
-      goodsList: []
+      goodsList: [],
+      pageSize: 10,
+      pageNum: 1,
+      total: 1
     }
   },
-  onShow() {
+  mounted() {
     // console.log(this.$route.query)
     // this.pageType = this.$route.query.type
     if (this.pageType === 'spike') {
@@ -152,21 +155,9 @@ export default {
       setNavigationBarTitle('报名参加预售活动')
     }
     this.providerId = getStorageSync('providerId')
-    getListGoods({
-      id: this.providerId,
-      pageNum: 1,
-      pageSize: 20
-    }).then(res => {
-      console.log(res)
-      if (res.data.code === '000000') {
-        this.goodsList = res.data.data.goodsDetailEntities
-      } else {
-        showToast(res.data.message)
-      }
-    })
-  },
-  onLoad: function (option) {
-    Object.assign(this, this.$options.data()) // 重置页面数据
+    // 初始化商品数据
+    this.pageNum = 1
+    this.getGoods(this.pageNum)
   },
   methods: {
     // filed组件的双向数据绑定
@@ -176,6 +167,32 @@ export default {
     // 展示商品选择弹框
     addProduct () {
       this.showPopup = true
+    },
+    // 获取商品数据
+    getGoods(pageNum) {
+      getListGoods({
+        id: this.providerId,
+        pageNum: pageNum,
+        pageSize: this.pageSize
+      }).then(res => {
+        console.log(res)
+        if (res.data.code === '000000') {
+          let recMsg = res.data.data.goodsDetailEntities
+          this.goodsList.push(...recMsg)
+          this.total = res.data.data.total
+        }
+      })
+    },
+    // 下拉加载更多商品
+    bindscrolltolower() {
+      console.log('sssss')
+      this.pageNum++
+      let pages = Math.ceil(this.total / this.pageSize)
+      if (this.pageNum < pages || this.pageNum === pages) {
+        this.getGoods(this.pageNum)
+      } else {
+        showToast('没有更多商品了')
+      }
     },
     // 确认选择商品
     confirm() {
@@ -233,15 +250,6 @@ export default {
           if (res.data.code === '000000') {
             showToast('活动申请已提交！')
             this.onLoad()
-            // this.refresh()
-            // this.phone = ''
-            // this.commodtiyPrice = ''
-            // this.providerId = ''
-            // this.productId = ''
-            // this.seckillPrice = ''
-            // this.actCount = ''
-            // this.isRead = false
-            // this.showPopup = false
           }
         })
       } else {
@@ -281,27 +289,28 @@ export default {
     padding: 5px;
   }
   .goods-modal{
+    height: 100%;
+    min-height: 375px;
+    background: #fff;
     .item-box{
       display: flex;
       justify-content: space-between;
       align-items: center;
-      // width: 100%;
       height: 76px;
-      padding: 5px;
+      padding: 8px;
       .item-img{
         width: 20%;
       }
       .item-instro{
         width: 80%;
         font-size:13px;
-        .item-title{
-          // width:30%;
-        }
+        .item-title{}
         .item-info{
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-size:12px;
+          padding: 0 5px;
         }
       }
     }
@@ -311,7 +320,10 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       /deep/ .van-button--default{
         background-color: #D00000;
         width: 100%;
@@ -320,7 +332,7 @@ export default {
     }
   }
   /deep/ .van-popup{
-    overflow: scroll;
+    overflow: hidden;
   }
 }
 </style>

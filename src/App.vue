@@ -33,7 +33,7 @@ export default {
 <style>
   @import "./../static/iconfont/iconfont.css";
   page{
-    height: 100%;
+    /* height: 100%; */
     background-color: #f3f3f3;
     font-family:Microsoft YaHei;
   }

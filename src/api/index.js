@@ -95,7 +95,7 @@ reviewProgress (integer, optional): 审核进度 0审核中 1审核通过 2审�
 updateTime (integer, optional): 修改时间 ,
 withdrawMoney (number, optional): 提现金额
 */
-export function getListFinance(providerId, pageSize, pageNum, reviewProgress) {
+export function getListFinance({ providerId, pageSize, pageNum, reviewProgress }) {
   return post(`${BASE_URL}/api/business/finance/getListFinance`, { providerId, pageSize, pageNum, reviewProgress })
 }
 

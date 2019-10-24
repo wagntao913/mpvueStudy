@@ -133,7 +133,7 @@
 <script>
 import field from '../../components/field'
 import imageView from '../../components/base/imageView'
-// import { formatTime } from '../../utils/index'
+
 import { showToast, getStorageSync } from '../../api/wechat'
 import { addCoupon, getCouponPriceList, getListGoods } from '../../api/index'
 export default {
@@ -293,6 +293,7 @@ export default {
 <style lang="scss" scoped>
 .create-coupon-main{
   overflow: hidden;
+  height: 100%;
   padding:8px 11px 0px 10px;
   .create-coupon-wrapper{
     box-sizing: border-box;

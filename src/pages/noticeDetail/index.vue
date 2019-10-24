@@ -23,13 +23,15 @@ export default {
   data() {
     return {
       providerId: '',
-      msgType: ''
+      msgType: '',
+      id: ''
     }
   },
   onShow() {
     console.log(this.$route.query)
     this.providerId = getStorageSync('providerId')
     this.msgType = this.$route.query.type
+    this.id = this.$route.query.id
     if (this.msgType === '0') {
       setNavigationBarTitle('库存预警详情')
     } else if (this.msgType === '1') {
@@ -41,7 +43,8 @@ export default {
     }
     getReadMessage({
       providerId: this.providerId,
-      msgType: this.msgType
+      msgType: this.msgType,
+      id: this.id
     }).then(res => {
       console.log(res)
     })

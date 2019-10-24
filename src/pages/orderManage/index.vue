@@ -8,8 +8,8 @@
             <div class="card-content" v-for="(item,index) in orderList" :key="index">
               <div class="item-card-main">
                 <div class="card-title">
-                  <div v-if="item.orderId" class="tips">订单编号： {{ item.sendOrderSn }}</div>
-                  <div v-if="item.status" style="color:#FA7921">{{ item.status === 6 ? '已提货' : '待提货'}}</div>
+                  <div v-if="item.orderId" class="tips">订单编号： {{ item.orderId }}</div>
+                   <div v-if="item.status" :style="{color: (item.status === 4 || item.status === 4)? '#21AB10' : '#FA7921'}">{{ item.status === 6 ? '待提货' : item.status === 3 ? '已提货' : item.status === 2 ? '发货' : item.status === 1 ? '待发货' : item.status === 4 ? '完成' :''}}</div>
                 </div>
                 <div class="card-divider"></div>
                 <div class="card-content" v-for="(elem,subIndex) in item.orderItem" :key="subIndex">
@@ -55,13 +55,13 @@
       </van-tab>
       <van-tab title="待提货">
         <div style="margin-left: 10px;">
-          <select-bar></select-bar>
+          <!-- <select-bar></select-bar> -->
           <div class="card-content" v-for="(item, index) in orderList" :key="index">
             <div class="item-card-main">
               <div class="card-title">
                 <div v-if="item.orderId" class="tips">订单编号： {{ item.orderId }}</div>
                 <!-- // 状态 1待发货 2发货 3 签收(已提货) 4完成 6待提货 , -->
-                <div v-if="item.status" :style="{color: item.status === 6 ? '#FA7921' : item.status === 4 ? '#21AB10' : item.status === 3 ? '#21AB10' : '#FA7921'}">{{ item.status === 6 ? '待提货' : item.status === 3 ? '已提货' : item.status === 2 ? '发货' : item.status === 1 ? '待发货' : item.status === 4 ? '完成' :''}}</div>
+                <div v-if="item.status" :style="{color: (item.status === 4 || item.status === 4)? '#21AB10' : '#FA7921'}">{{ item.status === 6 ? '待提货' : item.status === 3 ? '已提货' : item.status === 2 ? '发货' : item.status === 1 ? '待发货' : item.status === 4 ? '完成' :''}}</div>
               </div>
               <div class="card-divider"></div>
               <div class="card-content" v-for="(elem, subIndex) in item.orderItem" :key="subIndex">
@@ -106,7 +106,7 @@
       </van-tab>
       <van-tab title="已提货">
         <div style="margin: 10px;">
-          <select-bar></select-bar>
+          <!-- <select-bar></select-bar> -->
           <div class="card-content" v-for="(item,index) in orderList" :key="index">
             <div class="item-card-main">
               <div class="card-title">

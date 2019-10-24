@@ -198,6 +198,7 @@ export default {
 
 <style lang="scss" scoped>
 .activity-main{
+  overflow: hidden;
   .join-box{
     text-align: center;
     margin-top: 45px;

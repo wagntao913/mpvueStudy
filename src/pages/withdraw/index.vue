@@ -30,7 +30,7 @@
 
 <script>
 import { addWithdrawMoney, getWithdrawMoney } from '../../api/index'
-import { getStorageSync } from '../../api/wechat'
+import { getStorageSync, showToast } from '../../api/wechat'
 export default {
   data() {
     return {
@@ -49,10 +49,23 @@ export default {
   },
   methods: {
     handleWithdrawMoney() {
+      if (!this.withdrawMoney) {
+        showToast('请先输入提现金额')
+        return false
+      } else if (this.withdrawMoney > this.totalWithdrawMoney) {
+        showToast('提现金额不可大于账户可提现金额')
+        return false
+      }
       addWithdrawMoney({
-        providerId: this.providerId
+        providerId: this.providerId,
+        withdrawMoney: this.withdrawMoney
       }).then(res => {
         console.log(res)
+        if (res.data.code === '000000') {
+          showToast('提现申请成功！')
+        } else {
+          showToast(res.data.message)
+        }
       })
     }
   }

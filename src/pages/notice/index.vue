@@ -4,17 +4,17 @@
       <div class="box-title">
         库存预警
       </div>
-      <div class="notice-card" @click="showdetail(0)" v-for="(item,index) in messageTpye0" :key="index">
-        <div class="notice-icon"></div>
+      <div class="notice-card" @click="showdetail(0, item.id)" v-for="(item,index) in messageTpye0" :key="index">
+        <div class="notice-icon" v-show="item.iRead === 0" ></div>
         <div class="notice-card-title">
-          <span>天香情 新疆红枣 500g/袋</span>
+          <span>{{item.title}}</span>
         </div>
         <div class="notice-card-content">
-          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+          <span>{{item.content}}</span>
         </div>
         <div class="notice-card-from">
           <span>来自购马精选</span>
-          <span>19.08.17</span>
+          <span>{{ item.addTime }}</span>
         </div>
       </div>
     </div>
@@ -23,16 +23,16 @@
         活动提醒
       </div>
       <div class="notice-card" @click="showdetail(1)" v-for="(item,index) in messageTpye1" :key="index">
-        <div class="notice-icon"></div>
+        <div class="notice-icon" v-show="item.iRead === 0" ></div>
         <div class="notice-card-title">
-          <span>天香情 新疆红枣 500g/袋</span>
+          <span>{{item.title}}</span>
         </div>
         <div class="notice-card-content">
-          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+          <span>{{item.content}}</span>
         </div>
         <div class="notice-card-from">
           <span>来自购马精选</span>
-          <span>19.08.17</span>
+          <span>{{ item.addTime }}</span>
         </div>
       </div>
     </div>
@@ -41,16 +41,16 @@
         违规提醒
       </div>
       <div class="notice-card" @click="showdetail(2)" v-for="(item,index) in messageTpye2" :key="index">
-        <div class="notice-icon"></div>
+        <div class="notice-icon" v-show="item.iRead === 0" ></div>
         <div class="notice-card-title">
-          <span>天香情 新疆红枣 500g/袋</span>
+          <span>{{item.title}}</span>
         </div>
         <div class="notice-card-content">
-          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+          <span>{{item.content}}</span>
         </div>
         <div class="notice-card-from">
           <span>来自购马精选</span>
-          <span>19.08.17</span>
+          <span>{{ item.addTime }}</span>
         </div>
       </div>
     </div>
@@ -59,16 +59,16 @@
         规则变更提醒
       </div>
       <div class="notice-card"  @click="showdetail(3)" v-for="(item,index) in messageTpye3" :key="index">
-        <div class="notice-icon"></div>
+        <div class="notice-icon" v-show="item.iRead === 0" ></div>
         <div class="notice-card-title">
-          <span>天香情 新疆红枣 500g/袋</span>
+          <span>{{item.title}}</span>
         </div>
         <div class="notice-card-content">
-          <span>目前这款商品的库存只有5了，请及时补货，以备不虞。</span>
+          <span>{{item.content}}</span>
         </div>
         <div class="notice-card-from">
           <span>来自购马精选</span>
-          <span>19.08.17</span>
+          <span>{{ item.addTime }}</span>
         </div>
       </div>
     </div>
@@ -78,6 +78,7 @@
 <script>
 import { getMessqgeList } from '../../api/index'
 import { getStorageSync } from '../../api/wechat'
+import { formatTime } from '../../utils/index'
 export default {
   data() {
     return {
@@ -99,6 +100,9 @@ export default {
         if (res.data.code === '000000') {
           let recMsg = res.data.data
           recMsg.forEach(el => {
+            el.messageEntityList.forEach(element => {
+              element.addTime = formatTime(element.addTime)
+            })
             if (el.type === 0) {
               this.messageTpye0 = el.messageEntityList
             } else if (el.type === 1) {
@@ -113,12 +117,13 @@ export default {
       })
     },
     // 查看详情
-    showdetail(type) {
+    showdetail(type, id) {
       console.log('== showDetail ==')
       this.$router.push({
         path: '/pages/noticeDetail/main',
         query: {
-          type: type
+          type: type,
+          id: id
         }
       })
     }
